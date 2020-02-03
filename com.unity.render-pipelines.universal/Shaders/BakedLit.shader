@@ -74,8 +74,7 @@ Shader "Universal Render Pipeline/Baked Lit"
                 DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 1);
                 half3 normal                    : TEXCOORD2;
     #if defined(_NORMALMAP)
-                half3 tangent                   : TEXCOORD3;
-                half3 bitangent                 : TEXCOORD4;
+                half4 tangent                   : TEXCOORD3;
     #endif
                 float4 vertex : SV_POSITION;
 
@@ -99,8 +98,8 @@ Shader "Universal Render Pipeline/Baked Lit"
                 VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
                 output.normal = normalInput.normalWS;
     #if defined(_NORMALMAP)
-                output.tangent = normalInput.tangentWS;
-                output.bitangent = normalInput.bitangentWS;
+				real sign = input.tangentOS.w * GetOddNegativeScale();
+				output.tangent = half4(normalInput.tangentWS.xyz, sign);
     #endif
                 OUTPUT_LIGHTMAP_UV(input.lightmapUV, unity_LightmapST, output.lightmapUV);
                 OUTPUT_SH(output.normal, output.vertexSH);
@@ -125,7 +124,9 @@ Shader "Universal Render Pipeline/Baked Lit"
 
     #if defined(_NORMALMAP)
                 half3 normalTS = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap)).xyz;
-                half3 normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangent, input.bitangent, input.normal));
+				float sgn = input.tangentWS.w;		// should be either +1 or -1
+				float3 bitangent = sgn * cross(input.normal.xyz, input.tangent.xyz);
+                half3 normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangent, bitangent, input.normal));
     #else
                 half3 normalWS = input.normal;
     #endif

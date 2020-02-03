@@ -22,12 +22,11 @@ struct Varyings
     float3 positionWS               : TEXCOORD2;
 #endif
 
+	float3 normalWS                 : TEXCOORD3;
 #ifdef _NORMALMAP
-    float4 normalWS                 : TEXCOORD3;    // xyz: normal, w: viewDir.x
-    float4 tangentWS                : TEXCOORD4;    // xyz: tangent, w: viewDir.y
-    float4 bitangentWS              : TEXCOORD5;    // xyz: bitangent, w: viewDir.z
+    float4 tangentWS                : TEXCOORD4;    // xyz: tangent, w: sign
+    float3 viewDirWS				: TEXCOORD5;
 #else
-    float3 normalWS                 : TEXCOORD3;
     float3 viewDirWS                : TEXCOORD4;
 #endif
 
@@ -50,12 +49,12 @@ void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData
     inputData.positionWS = input.positionWS;
 #endif
 
-#ifdef _NORMALMAP
-    half3 viewDirWS = half3(input.normalWS.w, input.tangentWS.w, input.bitangentWS.w);
-    inputData.normalWS = TransformTangentToWorld(normalTS,
-        half3x3(input.tangentWS.xyz, input.bitangentWS.xyz, input.normalWS.xyz));
+	half3 viewDirWS = input.viewDirWS;
+#ifdef _NORMALMAP 
+	float sgn = input.tangentWS.w;		// should be either +1 or -1
+	float3 bitangent = sgn * cross(input.normalWS.xyz, input.tangentWS.xyz);
+    inputData.normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangentWS.xyz, bitangent.xyz, input.normalWS.xyz));
 #else
-    half3 viewDirWS = input.viewDirWS;
     inputData.normalWS = input.normalWS;
 #endif
 
@@ -97,13 +96,11 @@ Varyings LitPassVertex(Attributes input)
 
     output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
 
-#ifdef _NORMALMAP
-    output.normalWS = half4(normalInput.normalWS, viewDirWS.x);
-    output.tangentWS = half4(normalInput.tangentWS, viewDirWS.y);
-    output.bitangentWS = half4(normalInput.bitangentWS, viewDirWS.z);
-#else
-    output.normalWS = NormalizeNormalPerVertex(normalInput.normalWS);
+	output.normalWS = NormalizeNormalPerVertex(normalInput.normalWS);
     output.viewDirWS = viewDirWS;
+#ifdef _NORMALMAP
+	real sign = input.tangentOS.w * GetOddNegativeScale();
+    output.tangentWS = half4(normalInput.tangentWS.xyz, sign);
 #endif
 
     OUTPUT_LIGHTMAP_UV(input.lightmapUV, unity_LightmapST, output.lightmapUV);

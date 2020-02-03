@@ -179,7 +179,12 @@ real3 TransformTangentToObject(real3 dirTS, real3x3 tangentToWorld)
 real3 TransformObjectToTangent(real3 dirOS, real3x3 tangentToWorld)
 {
     // Note matrix is in row major convention with left multiplication as it is build on the fly
-	float3 normalWS = TransformObjectToWorldNormal(dirOS);
+
+	// corresponds to TransformObjectToWorldNormal(dirOS) but without the SafeNormalize() since 
+	// this is done at the end in TransformWorldToTangent().
+	float3 normalWS = mul(dirOS, (float3x3)GetWorldToObjectMatrix());
+
+	// transform from world to tangent
 	return TransformWorldToTangent(normalWS, tangentToWorld);
 }
 

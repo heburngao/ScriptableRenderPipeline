@@ -96,7 +96,7 @@ Varyings LitPassVertex(Attributes input)
 
     output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
 
-	output.normalWS = NormalizeNormalPerVertex(normalInput.normalWS);
+	output.normalWS = normalInput.normalWS;	// already normalized from normal transform to WS.
     output.viewDirWS = viewDirWS;
 #ifdef _NORMALMAP
 	real sign = input.tangentOS.w * GetOddNegativeScale();

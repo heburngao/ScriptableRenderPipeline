@@ -146,6 +146,9 @@ real3 TransformTangentToWorld(real3 dirTS, real3x3 tangentToWorld)
     return mul(dirTS, tangentToWorld);
 }
 
+// This function does the exact inverse of TransformTangentToWorld() and is
+// also decribed within comments in mikktspace.h and it follows implicitly
+// from the scalar triple product (google it).
 real3 TransformWorldToTangent(real3 dirWS, real3x3 tangentToWorld)
 {
     // Note matrix is in row major convention with left multiplication as it is build on the fly
@@ -162,10 +165,10 @@ real3 TransformWorldToTangent(real3 dirWS, real3x3 tangentToWorld)
 	float sgn = determinant<0.0 ? (-1.0) : 1.0;
 
 	// inverse transposed but scaled by determinant
+	// Will remove transpose part by using matrix as the first arg in the mul() below
+	// this makes it the exact inverse of what TransformTangentToWorld() does.
 	real3x3 matTBN_I_T = real3x3(col0, col1, col2);
 
-	// remove transpose part by using matrix as the first arg in mul()
-	// this makes it the exact inverse of what TransformTangentToWorld() does.
 	return SafeNormalize( sgn * mul(matTBN_I_T, dirWS) );
 }
 

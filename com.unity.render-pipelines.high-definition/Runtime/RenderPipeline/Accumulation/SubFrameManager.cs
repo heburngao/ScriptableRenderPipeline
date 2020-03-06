@@ -63,7 +63,7 @@ namespace UnityEngine.Rendering.HighDefinition
         void Init(int samples, float shutterInterval)
         {
             m_AccumulationSamples = (uint)samples;
-            m_ShutterInterval = shutterInterval;
+            m_ShutterInterval = samples > 1 ? shutterInterval : 0;
             m_IsRecording = true;
             m_IsRenderingTheFirstFrame = true;
             Reset();

@@ -8,8 +8,8 @@
 TEXTURE2D_X(_RadianceTexture);
 float4      _AccumulationWeights;
 int         _AccumulationNeedsExposure;
-uint         _AccumulationFrameIndex;
-uint         _AccumulationNumSamples;
+uint        _AccumulationFrameIndex;
+uint        _AccumulationNumSamples;
 
 // Input - Output(s)
 RW_TEXTURE2D_X(float4,  _CameraColorTextureRW);

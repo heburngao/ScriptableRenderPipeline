@@ -76,8 +76,6 @@ namespace UnityEngine.Rendering.HighDefinition
             {
                 Time.timeScale *= 0.5f;
             }
-
-            Time.fixedDeltaTime = Time.captureDeltaTime;
         }
 
         internal void BeginRecording(int samples, float shutterInterval, float shutterFullyOpen = 0.0f, float shutterBeginsClosing = 1.0f)

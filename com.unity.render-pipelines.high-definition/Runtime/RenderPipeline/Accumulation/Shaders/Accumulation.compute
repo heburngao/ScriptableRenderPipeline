@@ -8,8 +8,8 @@
 TEXTURE2D_X(_RadianceTexture);
 float4      _AccumulationWeights;
 int         _AccumulationNeedsExposure;
-int         _AccumulationFrameIndex;
-int         _AccumulationNumSamples;
+uint         _AccumulationFrameIndex;
+uint         _AccumulationNumSamples;
 
 // Input - Output(s)
 RW_TEXTURE2D_X(float4,  _CameraColorTextureRW);
@@ -25,7 +25,7 @@ void AddConvergenceCue(uint2 pixelCoord, uint sampleCount, inout float3 color)
     uint height = _ScreenSize.y;
 
     // Change color only in a region corresponding to a progress bar, on the bottom 1% of the screen
-    if (pixelCoord.y < 0.01 * height && (float)pixelCoord.x / width <= (float)sampleCount / _AccumulationNumSamples)
+    if (pixelCoord.y < 4 && (float)pixelCoord.x / width <= (float)sampleCount / _AccumulationNumSamples)
     {
         float lum = Luminance(color);
 

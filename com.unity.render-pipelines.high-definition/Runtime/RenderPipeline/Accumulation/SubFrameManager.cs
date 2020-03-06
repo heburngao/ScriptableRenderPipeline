@@ -20,6 +20,7 @@ namespace UnityEngine.Rendering.HighDefinition
 
         // Internal state
         float m_OriginalTimeScale = 0;
+        float m_OriginalFixedDeltaTime = 0;
         bool m_IsRenderingTheFirstFrame = true;
         float m_AccumulatedWeight = 0;
 
@@ -76,6 +77,9 @@ namespace UnityEngine.Rendering.HighDefinition
             {
                 Time.timeScale *= 0.5f;
             }
+
+            m_OriginalFixedDeltaTime = Time.fixedDeltaTime;
+            Time.fixedDeltaTime = Time.captureDeltaTime;
         }
 
         internal void BeginRecording(int samples, float shutterInterval, float shutterFullyOpen = 0.0f, float shutterBeginsClosing = 1.0f)
@@ -97,6 +101,7 @@ namespace UnityEngine.Rendering.HighDefinition
         {
             m_IsRecording = false;
             Time.timeScale = m_OriginalTimeScale;
+            Time.fixedDeltaTime = m_OriginalFixedDeltaTime;
             m_ShutterCurve = null;
         }
 

@@ -312,7 +312,13 @@ namespace UnityEditor.ShaderGraph
                     var slotRef = redirNode.GetLeftMostSlotReference();
                     var fromLeftNode = owner.GetNodeFromGuid<AbstractMaterialNode>(slotRef.nodeGuid);
                     //Debug.Log("MUPPETS:: " + fromLeftNode.name);
-                    if (fromLeftNode != null)
+                    if (fromLeftNode is RedirectNodeData)
+                    {
+                        Debug.Log("Muppets in da house " );
+                        return redirNode.GetSlotValue(0, generationMode);
+                    }
+                    //Debug.Log("MUPPETS:: " + fromLeftNode.name);
+                    if (fromLeftNode != null && fromLeftNode.GetType() != typeof(RedirectNodeData))
                     {
                         return ShaderGenerator.AdaptNodeOutput(fromLeftNode, slotRef.slotId, inputSlot.concreteValueType);
                     }

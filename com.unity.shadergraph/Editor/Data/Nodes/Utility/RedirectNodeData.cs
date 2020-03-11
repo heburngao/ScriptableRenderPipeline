@@ -59,21 +59,40 @@ namespace UnityEditor.ShaderGraph
                     var slot = port.slot;
                     var graph = slot.owner.owner;
                     var edges = graph.GetEdges(slot.slotReference).ToList();
-                    if (edges.Any())
+                    foreach (IEdge edge in edges)
                     {
-                        var outputSlotRef = edges[0].outputSlot;
-                        var nodeFromGuid = graph.GetNodeFromGuid(outputSlotRef.nodeGuid);
-
+                        // get the input details
+                        var outputSlotRef = edge.outputSlot;
+                        var inputNode = graph.GetNodeFromGuid(outputSlotRef.nodeGuid);
                         // If this is a redirect node we continue to look for the top one
-
-                        if (nodeFromGuid is RedirectNodeData redirNode)
+                        if (inputNode is RedirectNodeData redirectNode)
                         {
-                            return redirNode.GetLeftMostSlotReference();
+                            return redirectNode.GetLeftMostSlotReference();
                         }
-
                         // else we return the actual slot reference
                         return outputSlotRef;
                     }
+                    // If no edges it is the first redirect node without an edge going into it and we should return the slot ref
+                    return slot.slotReference;
+
+                    // if (edges.Any())
+                    // {
+                    //     var outputSlotRef = edges[0].outputSlot;
+                    //     var nodeFromGuid = graph.GetNodeFromGuid(outputSlotRef.nodeGuid);
+                    //
+                    //     // If this is a redirect node we continue to look for the top one
+                    //
+                    //     if (nodeFromGuid is RedirectNodeData redirNode)
+                    //     {
+                    //         return redirNode.GetLeftMostSlotReference();
+                    //     }
+                    //
+                    //     // else we return the actual slot reference
+                    //     return outputSlotRef;
+                    // }
+
+
+
                 }
             }
 

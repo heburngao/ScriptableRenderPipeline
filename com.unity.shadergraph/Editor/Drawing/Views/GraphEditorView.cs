@@ -547,10 +547,10 @@ namespace UnityEditor.ShaderGraph.Drawing
 
             foreach (var node in nodesToUpdate)
             {
-                if (node is MaterialNodeView materialNodeView)
-                {
-                    materialNodeView.OnModified(ModificationScope.Topological);
-                }
+                //if (node is MaterialNodeView materialNodeView)
+                //{
+                    node.OnModified(ModificationScope.Topological);
+                //}
             }
 
             UpdateEdgeColors(nodesToUpdate);
@@ -808,10 +808,10 @@ namespace UnityEditor.ShaderGraph.Drawing
 
             foreach (var node in nodesToUpdate)
             {
-                if (node is MaterialNodeView materialNodeView)
-                {
-                    materialNodeView.OnModified(ModificationScope.Topological);
-                }
+                //if (node is MaterialNodeView materialNodeView)
+                //{
+                    node.OnModified(ModificationScope.Topological);
+                //}
             }
 
             UpdateEdgeColors(nodesToUpdate);
@@ -1041,7 +1041,7 @@ namespace UnityEditor.ShaderGraph.Drawing
             while (nodeStack.Any())
             {
                 var nodeView = nodeStack.Pop();
-                if (nodeView is MaterialNodeView materialNodeView)
+                if (nodeView is IShaderNodeView materialNodeView)
                 {
                     materialNodeView.UpdatePortInputTypes();
                 }
@@ -1063,7 +1063,7 @@ namespace UnityEditor.ShaderGraph.Drawing
                                 // If child node of this slot is a normal Node, not a redirect node add this Redirect node to the list.
                                 if (parentNode != null && parentNode.GetType() != typeof(RedirectNodeData))
                                 {
-                                    redirectNodeView.UpdatePortTypes();
+                                    //redirectNodeView.UpdatePortTypes();
                                 }
                             }
                         }

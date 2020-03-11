@@ -79,7 +79,7 @@ namespace UnityEngine.Rendering.HighDefinition
             }
 
             m_OriginalFixedDeltaTime = Time.fixedDeltaTime;
-            Time.fixedDeltaTime = Time.captureDeltaTime;
+            Time.fixedDeltaTime = Time.captureDeltaTime * Time.timeScale;
         }
 
         internal void BeginRecording(int samples, float shutterInterval, float shutterFullyOpen = 0.0f, float shutterBeginsClosing = 1.0f)
@@ -127,6 +127,7 @@ namespace UnityEngine.Rendering.HighDefinition
             {
                 Time.timeScale *= 0.5f;
             }
+            Time.fixedDeltaTime = Time.captureDeltaTime * Time.timeScale;
         }
 
         // Helper function to compute the weight of a frame for a specific point in time

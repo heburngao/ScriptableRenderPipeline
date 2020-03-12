@@ -48,8 +48,7 @@ namespace UnityEditor.ShaderGraph
             temp.position = new Rect(pos, Vector2.zero);
             drawState = temp;
         }
-
-
+        
         public SlotReference GetLeftMostSlotReference()
         {
             if (nodeView != null)
@@ -74,25 +73,6 @@ namespace UnityEditor.ShaderGraph
                     }
                     // If no edges it is the first redirect node without an edge going into it and we should return the slot ref
                     return slot.slotReference;
-
-                    // if (edges.Any())
-                    // {
-                    //     var outputSlotRef = edges[0].outputSlot;
-                    //     var nodeFromGuid = graph.GetNodeFromGuid(outputSlotRef.nodeGuid);
-                    //
-                    //     // If this is a redirect node we continue to look for the top one
-                    //
-                    //     if (nodeFromGuid is RedirectNodeData redirNode)
-                    //     {
-                    //         return redirNode.GetLeftMostSlotReference();
-                    //     }
-                    //
-                    //     // else we return the actual slot reference
-                    //     return outputSlotRef;
-                    // }
-
-
-
                 }
             }
 

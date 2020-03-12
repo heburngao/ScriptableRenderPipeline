@@ -1046,7 +1046,7 @@ namespace UnityEditor.ShaderGraph.Drawing
                     materialNodeView.UpdatePortInputTypes();
                 }
 
-                //List<RedirectNodeView> redirectNodesToUpdate = new List<RedirectNodeView>();
+                // MTT remove this........
                 if (nodeView is RedirectNodeView redirectNodeView)
                 {
                     // Gather only the top level redirect node

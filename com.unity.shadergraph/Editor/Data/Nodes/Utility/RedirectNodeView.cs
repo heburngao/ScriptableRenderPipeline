@@ -54,141 +54,6 @@ namespace UnityEditor.ShaderGraph
             InitializeFromEdge(nodeData.m_Edge, m_GraphView);
         }
 
-        //public void UpdateSlots(IEnumerable<MaterialSlot> slots)
-        // public void UpdateSlots(Edge edge)
-        // {
-        //     // Need also to force the slotreference to update on all children.
-        //     // Set the color of the ports
-        //     foreach (var port in inputContainer.Query<Port>().ToList())
-        //     {
-        //         port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
-        //     }
-        //
-        //     foreach (var port in outputContainer.Query<Port>().ToList())
-        //     {
-        //         port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
-        //         foreach (Edge connection in port.connections)
-        //         {
-        //             if (connection.input.GetSlot().owner is RedirectNodeData redirectNode)
-        //             {
-        //                 // If incoming node is redirect node we force the child to inherit the slot reference
-        //                 // if (connection.output.GetSlot().owner is RedirectNodeData redirLeftNode)
-        //                 // {
-        //                 //     redirectNode.slotReferenceInput = redirLeftNode.slotReferenceInput;
-        //                 // }
-        //
-        //                 redirectNode.nodeView.UpdateSlots(connection);
-        //             }
-        //         }
-        //     }
-        // }
-
-        // Get the left most slot referende
-        // If it ends with being a redirect node, then it means it is a dead end.
-        // if it is another node than a redirect node we use that and return that slot ref
-        // public SlotReference GetLeftMostSlotReference()
-        // {
-        //     foreach (var port in inputContainer.Children().OfType<ShaderPort>())
-        //     {
-        //         var slot = port.slot;
-        //         var graph = slot.owner.owner;
-        //         var edges = graph.GetEdges(slot.slotReference).ToList();
-        //         if (edges.Any())
-        //         {
-        //             var outputSlotRef = edges[0].outputSlot;
-        //             var nodeFromGuid = graph.GetNodeFromGuid(outputSlotRef.nodeGuid);
-        //             // If this is a redirect node we continue to look for the top one
-        //             // else we return the actual slot reference
-        //             if (nodeFromGuid is RedirectNodeData redirNode)
-        //             {
-        //                 return redirNode.nodeView.GetLeftMostSlotReference();
-        //             }
-        //
-        //             return outputSlotRef;
-        //         }
-        //     }
-        //
-        //     return new SlotReference();
-        // }
-
-        // public SlotReference? GetLeftMostSlotReference()
-        // {
-        //     foreach (var port in inputContainer.Children().OfType<ShaderPort>())
-        //     {
-        //         var slot = port.slot;
-        //         var graph = slot.owner.owner;
-        //         var edges = graph.GetEdges(slot.slotReference).ToList();
-        //         if (edges.Any())
-        //         {
-        //             var outputSlotRef = edges[0].outputSlot;
-        //             var nodeFromGuid = graph.GetNodeFromGuid(outputSlotRef.nodeGuid);
-        //             // If this is a redirect node we continue to look for the top one
-        //             if (nodeFromGuid is RedirectNodeData redirNode)
-        //             {
-        //                 return redirNode.nodeView.GetLeftMostSlotReference();
-        //             }
-        //
-        //             return outputSlotRef;
-        //         }
-        //     }
-        //
-        //     return null;
-        // }
-
-        // void GetAllRedirectNodes(RedirectNodeData node, ref List<RedirectNodeData> allNodes)
-        // {
-        //     if(node == null)
-        //         return;
-        //     allNodes.Add(node);
-        //     foreach (var port in node.nodeView.outputContainer.Children().OfType<ShaderPort>())
-        //     {
-        //         var slot = port.slot;
-        //         var graph = slot.owner.owner;
-        //         var edges = graph.GetEdges(slot.slotReference).ToList();
-        //
-        //         foreach (IEdge edge in edges)
-        //         {
-        //             // get the input details
-        //             var inputSlotRef = edge.inputSlot;
-        //             var inputNode = graph.GetNodeFromGuid(inputSlotRef.nodeGuid);
-        //             if (inputNode is RedirectNodeData redirectNode)
-        //             {
-        //                 GetAllRedirectNodes(redirectNode, ref allNodes);
-        //             }
-        //         }
-        //     }
-        // }
-
-        // public void UpdatePortTypes()
-        // {
-        //     // Get all the RedirectNodes and update them all in one go.
-        //     List<RedirectNodeData> connectedRedirectNodes = new List<RedirectNodeData>();
-        //     // Always add first node / this node
-        //     GetAllRedirectNodes(node as RedirectNodeData, ref connectedRedirectNodes);
-        //
-        //     // Get the concrete value type of the incoming edge output
-        //     string concreteValueType = "";
-        //     foreach (var port in inputContainer.Children().OfType<ShaderPort>())
-        //     {
-        //         var slot = port.slot;
-        //         var graph = slot.owner.owner;
-        //         var edges = graph.GetEdges(slot.slotReference).ToList();
-        //
-        //         // get the output details
-        //         var outputSlotRef = edges[0].outputSlot;
-        //         var outputNode = graph.GetNodeFromGuid(outputSlotRef.nodeGuid);
-        //         concreteValueType = outputNode.FindOutputSlot<MaterialSlot>(outputSlotRef.slotId).concreteValueType.ToClassName();
-        //     }
-        //
-        //     foreach (RedirectNodeData redirectNode in connectedRedirectNodes)
-        //     {
-        //         foreach (var port in redirectNode.nodeView.inputContainer.Children().Concat(redirectNode.nodeView.outputContainer.Children()).OfType<ShaderPort>())
-        //         {
-        //             port.visualClass = concreteValueType;
-        //         }
-        //     }
-        // }
-
         public void AddSlots(IEnumerable<MaterialSlot> slots)
         {
             foreach (var slot in slots)
@@ -227,6 +92,7 @@ namespace UnityEditor.ShaderGraph
             }
 
             // Set the color of the ports
+            // MTT Remove this
             foreach (var port in inputContainer.Query<Port>().ToList())
             {
                 port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
@@ -237,8 +103,6 @@ namespace UnityEditor.ShaderGraph
                 port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
             }
         }
-
-
 
         #region IShaderNodeView interface
         public Node gvNode => this;
@@ -307,6 +171,10 @@ namespace UnityEditor.ShaderGraph
                     else
                     {
                         port.slot = newSlot;
+                        if (!newSlot.isConnected)
+                        {
+                            Debug.Log("Not connected to anything::: " + newSlot.owner.name);
+                        }
                         // var portInputView = m_PortInputContainer.Children().OfType<PortInputView>().FirstOrDefault(x => x.slot.id == currentSlot.id);
                         // if (newSlot.isConnected)
                         // {

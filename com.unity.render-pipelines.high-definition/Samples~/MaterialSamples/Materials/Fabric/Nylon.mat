@@ -139,7 +139,7 @@ Material:
     - _AlphaCutoffShadow: 0.5
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
-    - _Anisotropy: -0.729
+    - _Anisotropy: -0.7
     - _BlendMode: 0
     - _CoatMask: 0
     - _CullMode: 0
@@ -218,7 +218,7 @@ Material:
     - _ShiverDirectionality: 0.5
     - _ShiverDrag: 0.2
     - _Smoothness: 0.5
-    - _SmoothnessMax: 0.025
+    - _SmoothnessMax: 0
     - _SmoothnessMin: 0
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
@@ -243,9 +243,9 @@ Material:
     - _TexWorldScaleEmissive: 1
     - _Thickness: 1
     - _ThicknessMultiplier: 1
-    - _ThreadAOStrength01: 0.6
-    - _ThreadNormalStrength: 1
-    - _ThreadSmoothnessScale: 0.083
+    - _ThreadAOStrength01: 0
+    - _ThreadNormalStrength: 0.173
+    - _ThreadSmoothnessScale: 0.107
     - _TransmissionEnable: 1
     - _TransparentBackfaceEnable: 0
     - _TransparentCullMode: 2
@@ -286,5 +286,5 @@ Material:
     - _uvBaseMask: {r: 1, g: 0, b: 0, a: 0}
     - _uvBaseST: {r: 1, g: 1, b: 0, a: 0}
     - _uvThreadMask: {r: 1, g: 0, b: 0, a: 0}
-    - _uvThreadST: {r: 300, g: 300, b: 0, a: 0}
+    - _uvThreadST: {r: 40, g: 40, b: 0, a: 0}
   m_BuildTextureStacks: []

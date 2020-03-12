@@ -29,7 +29,7 @@ Shader "Hidden/HDRP/TAA2"
         // Tier definitions
         // ---------------------------------------------------
         //  TODO: YCoCg gives better result in terms of ghosting reduction, but it also seems to cause
-        //  some additional aliasing that is undesirable. Disabling for now, but would like to investigate better. 
+        //  some additional aliasing that is undesirable. Would like to investigate better. 
 #ifdef LOW_QUALITY
     #define YCOCG 0
     #define HISTORY_SAMPLING_METHOD BILINEAR
@@ -43,7 +43,7 @@ Shader "Hidden/HDRP/TAA2"
     #define PERCEPTUAL_SPACE_ONLY_END 1 && (PERCEPTUAL_SPACE == 0)
 
 #elif defined(MEDIUM_QUALITY)
-    #define YCOCG 0
+    #define YCOCG 1
     #define HISTORY_SAMPLING_METHOD BICUBIC_5TAP
     #define WIDE_NEIGHBOURHOOD 0
     #define NEIGHBOUROOD_CORNER_METHOD VARIANCE
@@ -51,12 +51,12 @@ Shader "Hidden/HDRP/TAA2"
     #define HISTORY_CLIP DIRECT_CLIP
     #define ANTI_FLICKER 1
     #define VELOCITY_REJECTION (defined(ENABLE_MV_REJECTION) && 0)
-    #define PERCEPTUAL_SPACE 0
+    #define PERCEPTUAL_SPACE 1
     #define PERCEPTUAL_SPACE_ONLY_END 1 && (PERCEPTUAL_SPACE == 0)
 
 
 #elif defined(HIGH_QUALITY) // TODO: We can do better in term of quality here (e.g. subpixel changes etc) and can be optimized a bit more
-    #define YCOCG 0     
+    #define YCOCG 1     
     #define HISTORY_SAMPLING_METHOD BICUBIC_5TAP
     #define WIDE_NEIGHBOURHOOD 1
     #define NEIGHBOUROOD_CORNER_METHOD VARIANCE

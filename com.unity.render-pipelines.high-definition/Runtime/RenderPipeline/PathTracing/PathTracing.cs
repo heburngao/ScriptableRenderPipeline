@@ -145,7 +145,7 @@ namespace UnityEngine.Rendering.HighDefinition
             {
                 m_CacheCameraWidth = (uint) hdCamera.actualWidth;
                 m_CacheCameraHeight = (uint) hdCamera.actualHeight;
-                m_CurrentIteration = 0;
+                ResetPathTracing();
                 return;
             }
 

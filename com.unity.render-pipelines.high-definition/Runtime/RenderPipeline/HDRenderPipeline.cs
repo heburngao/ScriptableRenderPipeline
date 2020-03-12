@@ -2315,7 +2315,7 @@ namespace UnityEngine.Rendering.HighDefinition
                 PushFullScreenDebugTexture(hdCamera, cmd, m_CameraColorBuffer, FullScreenDebugMode.NanTracker);
                 PushFullScreenLightingDebugTexture(hdCamera, cmd, m_CameraColorBuffer);
 
-                if (m_SubFrameManager.isRecording && m_SubFrameManager.subFrameCount > 0)
+                if (m_SubFrameManager.isRecording && m_SubFrameManager.subFrameCount > 1)
                 {
                     RenderAccumulation(hdCamera, cmd, m_CameraColorBuffer, m_CameraColorBuffer, renderContext, false);
                 }

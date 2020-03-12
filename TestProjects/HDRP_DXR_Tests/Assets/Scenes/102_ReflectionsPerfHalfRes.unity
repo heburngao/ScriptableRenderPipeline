@@ -119,6 +119,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -188,6 +190,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MaterialCollection
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401416846743860939, guid: 441ff2a39ae01f14284390b460d6372e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401416846860372386, guid: 441ff2a39ae01f14284390b460d6372e,
+        type: 3}
+      propertyPath: m_Version
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8401416848054811392, guid: 441ff2a39ae01f14284390b460d6372e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 441ff2a39ae01f14284390b460d6372e, type: 3}

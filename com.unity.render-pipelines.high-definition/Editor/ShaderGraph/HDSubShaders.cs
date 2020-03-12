@@ -69,7 +69,15 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
                 { HDPasses.HDLit.MotionVectors },
                 { HDPasses.HDLit.DistortionVectors, new FieldCondition(HDFields.TransparentDistortion, true) },
                 { HDPasses.HDLit.TransparentBackface, new FieldCondition(HDFields.TransparentBackFace, true) },
-                { HDPasses.HDLit.TransparentDepthPrepass, new FieldCondition(HDFields.TransparentDepthPrePass, true) },
+                { HDPasses.HDLit.TransparentDepthPrepass, new FieldCondition[]{
+                                                            new FieldCondition(HDFields.TransparentDepthPrePass, true),
+                                                            new FieldCondition(HDFields.DisableSSRTransparent, true) }},
+                { HDPasses.HDLit.TransparentDepthPrepass, new FieldCondition[]{
+                                                            new FieldCondition(HDFields.TransparentDepthPrePass, true),
+                                                            new FieldCondition(HDFields.DisableSSRTransparent, false) }},
+                { HDPasses.HDLit.TransparentDepthPrepass, new FieldCondition[]{
+                                                            new FieldCondition(HDFields.TransparentDepthPrePass, false),
+                                                            new FieldCondition(HDFields.DisableSSRTransparent, false) }},
                 { HDPasses.HDLit.Forward },
                 { HDPasses.HDLit.TransparentDepthPostpass, new FieldCondition(HDFields.TransparentDepthPostPass, true) },
             },
@@ -119,7 +127,15 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
                 { HDPasses.Hair.DepthForwardOnly },
                 { HDPasses.Hair.MotionVectors },
                 { HDPasses.Hair.TransparentBackface, new FieldCondition(HDFields.TransparentBackFace, true) },
-                { HDPasses.Hair.TransparentDepthPrepass, new FieldCondition(HDFields.TransparentDepthPrePass, true) },
+                { HDPasses.HDLit.TransparentDepthPrepass, new FieldCondition[]{
+                                                            new FieldCondition(HDFields.TransparentDepthPrePass, true),
+                                                            new FieldCondition(HDFields.DisableSSRTransparent, true) }},
+                { HDPasses.HDLit.TransparentDepthPrepass, new FieldCondition[]{
+                                                            new FieldCondition(HDFields.TransparentDepthPrePass, true),
+                                                            new FieldCondition(HDFields.DisableSSRTransparent, false) }},
+                { HDPasses.HDLit.TransparentDepthPrepass, new FieldCondition[]{
+                                                            new FieldCondition(HDFields.TransparentDepthPrePass, false),
+                                                            new FieldCondition(HDFields.DisableSSRTransparent, false) }},
                 { HDPasses.Hair.ForwardOnly },
                 { HDPasses.Hair.TransparentDepthPostpass, new FieldCondition(HDFields.TransparentDepthPostPass, true) },
             },

@@ -229,6 +229,15 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
                 scope = KeywordScope.Local,
             };
 
+            public static KeywordDescriptor RayTracingPrepass = new KeywordDescriptor()
+            {
+                displayName = "Ray Tracing Prepass",
+                referenceName = "RAY_TRACING_PASS",
+                type = KeywordType.Boolean,
+                definition = KeywordDefinition.ShaderFeature,
+                scope = KeywordScope.Local,
+            };
+
             public static KeywordDescriptor Decals3RT = new KeywordDescriptor()
             {
                 displayName = "Decals 3RT",
@@ -283,6 +292,12 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
         };
 
         public static KeywordCollection TransparentDepthPostpass = new KeywordCollection
+        {
+            { HDBase },
+            { Descriptors.AlphaTest, new FieldCondition(HDFields.AlphaTestPostpass, true) },
+        };
+
+        public static KeywordCollection RayTracingPrepass = new KeywordCollection
         {
             { HDBase },
             { Descriptors.AlphaTest, new FieldCondition(HDFields.AlphaTestPostpass, true) },

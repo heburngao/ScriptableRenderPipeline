@@ -278,6 +278,13 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
                 HDLitMasterNode.DepthOffsetSlotId,
             };
 
+            public static int[] HDLitRayTracingPrepass = new int[]
+            {
+                HDLitMasterNode.AlphaSlotId,
+                HDLitMasterNode.AlphaThresholdDepthPrepassSlotId,
+                HDLitMasterNode.DepthOffsetSlotId,
+            };
+
             public static int[] EyeMETA = new int[]
             {
                 EyeMasterNode.AlbedoSlotId,

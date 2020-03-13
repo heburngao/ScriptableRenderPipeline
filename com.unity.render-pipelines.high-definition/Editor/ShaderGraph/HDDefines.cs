@@ -34,6 +34,12 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
             { HDKeywords.Descriptors.TransparentDepthPostpass, 1 },
         };
 
+        public static DefineCollection RayTracingPrepass = new DefineCollection
+        {
+            { RayTracingNode.GetRayTracingKeyword(), 0 },
+            { HDKeywords.Descriptors.RayTracingPrepass, 1 },
+        };
+
         public static DefineCollection DepthMotionVectors = new DefineCollection
         {
             { RayTracingNode.GetRayTracingKeyword(), 0 },

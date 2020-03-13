@@ -814,6 +814,31 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
                 // Custom Template
                 passTemplatePath = GetPassTemplatePath("Lit"),
             };
+
+            public static PassDescriptor RayTracingPrepass = new PassDescriptor()
+            {
+                // Definition
+                displayName = "RayTracingPrepass",
+                referenceName = "SHADERPASS_CONSTANT",
+                lightMode = "RayTracingPrepass",
+                useInPreview = false,
+
+                // Port Mask
+                vertexPorts = HDPortMasks.Vertex.HDLitDefault,
+                pixelPorts = HDPortMasks.Pixel.HDLitRayTracingPrepass,
+
+                // Collections
+                structs = HDStructCollections.Default,
+                fieldDependencies = HDFieldDependencies.Default,
+                renderStates = HDRenderStates.RayTracingPrepass,
+                pragmas = HDPragmas.DotsInstancedInV1AndV2,
+                defines = HDDefines.RayTracingPrepass,
+                keywords = HDKeywords.RayTracingPrepass,
+                includes = HDIncludes.RayTracingPrepass,
+
+                // Custom Template
+                passTemplatePath = GetPassTemplatePath("Lit"),
+            };
         }
 #endregion
 

@@ -501,6 +501,16 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
         };
 
         // --------------------------------------------------
+        // Transparent Depth Prepass & Postpass
+        
+        public static RenderStateCollection RayTracingPrepass = new RenderStateCollection
+        {
+            { RenderState.Blend(Blend.One, Blend.Zero) },
+            { RenderState.Cull(Uniforms.cullMode) },
+            { RenderState.ZWrite(ZWrite.On) },
+        };
+
+        // --------------------------------------------------
         // Transparent Backface
 
         public static RenderStateCollection HDTransparentBackface = new RenderStateCollection

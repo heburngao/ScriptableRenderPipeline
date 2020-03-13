@@ -547,6 +547,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Improved light selection oracle for light sampling in path tracing.
 - Stripped ray tracing subsurface passes with ray tracing is not enabled.
 - Remove LOD cross fade code for ray tracing shaders
+- Remove the raytracing rendering queue system to make recursive raytraced material work when raytracing is disabled
 
 ## [7.1.1] - 2019-09-05
 

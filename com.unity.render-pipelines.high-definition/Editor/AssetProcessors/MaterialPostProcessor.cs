@@ -189,6 +189,7 @@ namespace UnityEditor.Rendering.HighDefinition
         {
              StencilRefactor,
              ZWriteForTransparent,
+             RenderQueueUpgrade,
         };
 
         #region Migrations
@@ -272,6 +273,26 @@ namespace UnityEditor.Rendering.HighDefinition
         }
 
         #endregion
+        static void RenderQueueUpgrade(Material material, HDShaderUtils.ShaderID id)
+        {
+            // In order for the ray tracing keyword to be taken into account, we need to make it dirty so that the parameter is created first
+            HDShaderUtils.ResetMaterialKeywords(material);
+
+            // Replace previous ray tracing render queue for opaque to regular opaque with raytracing
+            if (material.renderQueue == ((int)UnityEngine.Rendering.RenderQueue.GeometryLast + 20))
+            {
+                material.renderQueue = (int)HDRenderQueue.Priority.Opaque;
+                material.SetFloat(kRayTracing, 1.0f);
+            }
+            // Replace previous ray tracing render queue for transparent to regular transparent with raytracing
+            else if (material.renderQueue == 3900)
+            {
+                material.renderQueue = (int)HDRenderQueue.Priority.Transparent;
+                material.SetFloat(kRayTracing, 1.0f);
+            }
+
+            HDShaderUtils.ResetMaterialKeywords(material);
+        }
 
         #region Serialization_API
         //Methods in this region interact on the serialized material

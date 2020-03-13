@@ -86,8 +86,12 @@ public class UniversalGraphicsTests
         var mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 
         // 2D Renderer is currently allocating memory, skip it as it will always fail GC alloc tests.
-        bool is2DRenderer = mainCamera.GetUniversalAdditionalCameraData().scriptableRenderer is Renderer2D;
-        if (!is2DRenderer)
+        var additionalCameraData = mainCamera.GetUniversalAdditionalCameraData();
+        bool is2DRenderer = additionalCameraData.scriptableRenderer is Renderer2D;
+        
+        // Post-processing is allocating memory. Case https://fogbugz.unity3d.com/f/cases/1227490/
+        bool isPostProcessingEnabled = additionalCameraData.renderPostProcessing;
+        if (!is2DRenderer && !isPostProcessingEnabled)
         {
             try
             {

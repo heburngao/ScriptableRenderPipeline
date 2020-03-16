@@ -281,7 +281,7 @@ namespace UnityEditor.ShaderGraph
 
                 if (fromNode is RedirectNodeData redirNode)
                 {
-                    var slotRef = redirNode.GetLeftMostSlotReference();
+                    var slotRef = NodeUtils.DepthFirstCollectRedirectNodeFromNode(redirNode);
                     var fromLeftNode = owner.GetNodeFromGuid<AbstractMaterialNode>(slotRef.nodeGuid);
                     if (fromLeftNode is RedirectNodeData)
                     {
@@ -302,14 +302,6 @@ namespace UnityEditor.ShaderGraph
                     return string.Empty;
 
                 return ShaderGenerator.AdaptNodeOutput(fromNode, slot.id, inputSlot.concreteValueType);
-            }
-
-            var inNode = owner.GetNodeFromGuid<AbstractMaterialNode>(inputSlot.slotReference.nodeGuid);
-            if (inNode is RedirectNodeData)
-            {
-                var outputSlot = FindSlot<MaterialSlot>(1);
-                Debug.Log(inNode.name);
-                Debug.Log(outputSlot.displayName);
             }
 
             return inputSlot.GetDefaultValue(generationMode);

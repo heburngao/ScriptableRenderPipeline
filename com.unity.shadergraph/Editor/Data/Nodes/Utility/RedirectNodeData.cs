@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph.Drawing;
@@ -30,17 +31,6 @@ namespace UnityEditor.ShaderGraph
             name = "Redirect Node";
         }
 
-        RedirectNodeView m_nodeView;
-        public RedirectNodeView nodeView
-        {
-            get { return m_nodeView; }
-            set
-            {
-                if (value != m_nodeView)
-                    m_nodeView = value;
-            }
-        }
-
         // Center the node's position?
         public void SetPosition(Vector2 pos)
         {
@@ -48,35 +38,34 @@ namespace UnityEditor.ShaderGraph
             temp.position = new Rect(pos, Vector2.zero);
             drawState = temp;
         }
-        
-        public SlotReference GetLeftMostSlotReference()
+
+        public override void ValidateNode()
         {
-            if (nodeView != null)
+            base.ValidateNode();
+
+            bool noInputs = false;
+            bool noOutputs = false;
+            var slots = new List<ISlot>();
+            GetInputSlots(slots);
+
+            foreach (var inSlot in slots)
             {
-                foreach (var port in nodeView.inputContainer.Children().OfType<ShaderPort>())
-                {
-                    var slot = port.slot;
-                    var graph = slot.owner.owner;
-                    var edges = graph.GetEdges(slot.slotReference).ToList();
-                    foreach (IEdge edge in edges)
-                    {
-                        // get the input details
-                        var outputSlotRef = edge.outputSlot;
-                        var inputNode = graph.GetNodeFromGuid(outputSlotRef.nodeGuid);
-                        // If this is a redirect node we continue to look for the top one
-                        if (inputNode is RedirectNodeData redirectNode)
-                        {
-                            return redirectNode.GetLeftMostSlotReference();
-                        }
-                        // else we return the actual slot reference
-                        return outputSlotRef;
-                    }
-                    // If no edges it is the first redirect node without an edge going into it and we should return the slot ref
-                    return slot.slotReference;
-                }
+                var edges = owner.GetEdges(inSlot.slotReference).ToList();
+                noInputs = !edges.Any();
+
+            }
+            slots.Clear();
+            GetOutputSlots(slots);
+            foreach (var outSlot in slots)
+            {
+                var edges = owner.GetEdges(outSlot.slotReference).ToList();
+                noOutputs = !edges.Any();
             }
 
-            return new SlotReference();
+            if(noInputs && !noOutputs)
+            {
+                owner.AddValidationError(tempId, "There seems to be Muppets in the choir here!");
+            }
         }
     }
 }

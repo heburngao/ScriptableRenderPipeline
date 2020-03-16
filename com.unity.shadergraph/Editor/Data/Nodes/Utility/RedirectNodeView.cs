@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.Rendering;
 using Edge = UnityEditor.Experimental.GraphView.Edge;
 
 namespace UnityEditor.ShaderGraph
@@ -14,7 +15,7 @@ namespace UnityEditor.ShaderGraph
     class RedirectNodeView : RedirectNode, IShaderNodeView
     {
         IEdgeConnectorListener m_ConnectorListener;
-        VisualElement m_TitleContainer;
+        //VisualElement m_TitleContainer;
         GraphView m_GraphView;
 
         public RedirectNodeView() : base()
@@ -39,11 +40,11 @@ namespace UnityEditor.ShaderGraph
 
             // Set references
             var nodeData = inNode as RedirectNodeData;
-            nodeData.nodeView = this;
             node = inNode;
-            title = node.name;
+            title = "";
             m_GraphView = graphView;
             m_ConnectorListener = connectorListener;
+            //m_TitleContainer = this.Q("title");
 
             viewDataKey = node.guid.ToString();
 
@@ -93,15 +94,15 @@ namespace UnityEditor.ShaderGraph
 
             // Set the color of the ports
             // MTT Remove this
-            foreach (var port in inputContainer.Query<Port>().ToList())
-            {
-                port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
-            }
-
-            foreach (var port in outputContainer.Query<Port>().ToList())
-            {
-                port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
-            }
+            // foreach (var port in inputContainer.Query<Port>().ToList())
+            // {
+            //     port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
+            // }
+            //
+            // foreach (var port in outputContainer.Query<Port>().ToList())
+            // {
+            //     port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
+            // }
         }
 
         #region IShaderNodeView interface
@@ -123,34 +124,12 @@ namespace UnityEditor.ShaderGraph
                 anchor.portName = slot.displayName;
                 anchor.visualClass = slot.concreteValueType.ToClassName();
             }
-            //m_GraphView.MarkDirtyRepaint();
-
-            // foreach (var portInputView in m_PortInputContainer.Children().OfType<PortInputView>())
-            //     portInputView.UpdateSlotType();
-            //
-            // foreach (var control in m_ControlItems.Children())
-            // {
-            //     var listener = control as AbstractMaterialNodeModificationListener;
-            //     if (listener != null)
-            //         listener.OnNodeModified(ModificationScope.Graph);
-            // }
         }
 
         public void OnModified(ModificationScope scope)
         {
-            //UpdateTitle();
-            //if (node.hasPreview)
-            //    UpdatePreviewExpandedState(node.previewExpanded);
-
-            //base.expanded = node.drawState.expanded;
-
-            // Update slots to match node modification
-
             if (scope == ModificationScope.Topological)
             {
-                Debug.Log("FLORP");
-                //RecreateSettings();
-
                 var slots = node.GetSlots<MaterialSlot>().ToList();
 
                 var inputPorts = inputContainer.Children().OfType<ShaderPort>().ToList();
@@ -162,29 +141,10 @@ namespace UnityEditor.ShaderGraph
                     {
                         // Slot doesn't exist anymore, remove it
                         inputContainer.Remove(port);
-
-                        // We also need to remove the inline input
-                        // var portInputView = m_PortInputContainer.Children().OfType<PortInputView>().FirstOrDefault(v => Equals(v.slot, port.slot));
-                        // if (portInputView != null)
-                        //     portInputView.RemoveFromHierarchy();
                     }
                     else
                     {
                         port.slot = newSlot;
-                        if (!newSlot.isConnected)
-                        {
-                            Debug.Log("Not connected to anything::: " + newSlot.owner.name);
-                        }
-                        // var portInputView = m_PortInputContainer.Children().OfType<PortInputView>().FirstOrDefault(x => x.slot.id == currentSlot.id);
-                        // if (newSlot.isConnected)
-                        // {
-                        //     portInputView?.RemoveFromHierarchy();
-                        // }
-                        // else
-                        // {
-                        //     portInputView?.UpdateSlot(newSlot);
-                        // }
-
                         slots.Remove(newSlot);
                     }
                 }
@@ -214,19 +174,27 @@ namespace UnityEditor.ShaderGraph
                     inputContainer.Sort((x, y) => slots.IndexOf(((ShaderPort)x).slot) - slots.IndexOf(((ShaderPort)y).slot));
                 if (outputContainer.childCount > 0)
                     outputContainer.Sort((x, y) => slots.IndexOf(((ShaderPort)x).slot) - slots.IndexOf(((ShaderPort)y).slot));
-
-                //UpdatePortInputs();
-                //UpdatePortInputVisibilities();
-                //m_GraphView.MarkDirtyRepaint();
             }
+        }
 
-            //RefreshExpandedState(); //This should not be needed. GraphView needs to improve the extension api here
+        public void AttachMessage(string errString, ShaderCompilerMessageSeverity severity)
+        {
+            ClearMessage();
+            IconBadge badge;
+            badge = IconBadge.CreateError(errString);
 
-            // foreach (var listener in m_ControlItems.Children().OfType<AbstractMaterialNodeModificationListener>())
-            // {
-            //     if (listener != null)
-            //         listener.OnNodeModified(scope);
-            // }
+            Add(badge);
+            badge.AttachTo(outputContainer, SpriteAlignment.RightCenter);
+        }
+
+        public void ClearMessage()
+        {
+            var badge = this.Q<IconBadge>();
+            if(badge != null)
+            {
+                badge.Detach();
+                badge.RemoveFromHierarchy();
+            }
         }
 
         public void SetColor(Color newColor)

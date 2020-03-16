@@ -10,7 +10,6 @@ using UnityEngine.Rendering;
 
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
-using UnityEditor.ShaderGraph.Drawing.Colors;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
@@ -606,19 +605,10 @@ namespace UnityEditor.ShaderGraph.Drawing
         {
             foreach (var slot in slots)
             {
-                Port port;
                 if (slot.hidden)
                     continue;
 
-                // if (slot.owner is RedirectNodeData)
-                // {
-                //     // Need to create a port without the connector so we do not drag out any new edges from the port.
-                //     port = ShaderPort.CreateWithNoEdgeConnector(slot);
-                // }
-                // else
-                // {
-                    port = ShaderPort.Create(slot, m_ConnectorListener);
-                //}
+                var port = ShaderPort.Create(slot, m_ConnectorListener);
 
                 if (slot.isOutputSlot)
                     outputContainer.Add(port);

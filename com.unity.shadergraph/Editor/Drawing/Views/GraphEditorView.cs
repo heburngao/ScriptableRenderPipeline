@@ -844,12 +844,15 @@ namespace UnityEditor.ShaderGraph.Drawing
             {
                 var node = m_Graph.GetNodeFromTempId(messageData.Key);
 
-                if (!(m_GraphView.GetNodeByGuid(node.guid.ToString()) is MaterialNodeView nodeView))
+                if (!(m_GraphView.GetNodeByGuid(node.guid.ToString()) is IShaderNodeView nodeView))
                     continue;
+                //if (!(m_GraphView.GetNodeByGuid(node.guid.ToString()) is MaterialNodeView nodeView))
+                //    continue;
 
                 if (messageData.Value.Count == 0)
                 {
-                    var badge = nodeView.Q<IconBadge>();
+                    var badge = nodeView.gvNode.Q<IconBadge>();
+                    //var badge = nodeView.Q<IconBadge>();
                     badge?.Detach();
                     badge?.RemoveFromHierarchy();
                 }
@@ -1041,34 +1044,34 @@ namespace UnityEditor.ShaderGraph.Drawing
             while (nodeStack.Any())
             {
                 var nodeView = nodeStack.Pop();
-                if (nodeView is IShaderNodeView materialNodeView)
+                if (nodeView is IShaderNodeView shaderNodeView)
                 {
-                    materialNodeView.UpdatePortInputTypes();
+                    shaderNodeView.UpdatePortInputTypes();
                 }
 
                 // MTT remove this........
-                if (nodeView is RedirectNodeView redirectNodeView)
-                {
-                    // Gather only the top level redirect node
-                    foreach (var anchorView in redirectNodeView.inputContainer.Children().OfType<Port>())
-                    {
-                        foreach (var edgeView in anchorView.connections)
-                        {
-                            var targetSlot = edgeView.input.GetSlot();
-                            var nodeEdges = m_Graph.GetEdges(targetSlot.slotReference);
-                            foreach (var edge in nodeEdges)
-                            {
-                                var fromSocketRef = edge.outputSlot;
-                                var parentNode = m_Graph.GetNodeFromGuid(fromSocketRef.nodeGuid);
-                                // If child node of this slot is a normal Node, not a redirect node add this Redirect node to the list.
-                                if (parentNode != null && parentNode.GetType() != typeof(RedirectNodeData))
-                                {
-                                    //redirectNodeView.UpdatePortTypes();
-                                }
-                            }
-                        }
-                    }
-                }
+                // if (nodeView is RedirectNodeView redirectNodeView)
+                // {
+                //     // Gather only the top level redirect node
+                //     foreach (var anchorView in redirectNodeView.inputContainer.Children().OfType<Port>())
+                //     {
+                //         foreach (var edgeView in anchorView.connections)
+                //         {
+                //             var targetSlot = edgeView.input.GetSlot();
+                //             var nodeEdges = m_Graph.GetEdges(targetSlot.slotReference);
+                //             foreach (var edge in nodeEdges)
+                //             {
+                //                 var fromSocketRef = edge.outputSlot;
+                //                 var parentNode = m_Graph.GetNodeFromGuid(fromSocketRef.nodeGuid);
+                //                 // If child node of this slot is a normal Node, not a redirect node add this Redirect node to the list.
+                //                 if (parentNode != null && parentNode.GetType() != typeof(RedirectNodeData))
+                //                 {
+                //                     //redirectNodeView.UpdatePortTypes();
+                //                 }
+                //             }
+                //         }
+                //     }
+                // }
 
                 foreach (var anchorView in nodeView.outputContainer.Children().OfType<Port>())
                 {

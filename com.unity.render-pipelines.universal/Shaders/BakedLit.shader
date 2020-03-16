@@ -95,6 +95,9 @@ Shader "Universal Render Pipeline/Baked Lit"
                 output.uv0AndFogCoord.xy = TRANSFORM_TEX(input.uv, _BaseMap);
                 output.uv0AndFogCoord.z = ComputeFogFactor(vertexInput.positionCS.z);
 
+                // normalWS and tangentWS already normalize.
+                // this is required to avoid skewing the direction during interpolation
+                // also required for per-vertex SH evaluation
                 VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
                 output.normal = normalInput.normalWS;
     #if defined(_NORMALMAP)
@@ -126,7 +129,7 @@ Shader "Universal Render Pipeline/Baked Lit"
                 half3 normalTS = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap)).xyz;
 				float sgn = input.tangentWS.w;		// should be either +1 or -1
 				float3 bitangent = sgn * cross(input.normal.xyz, input.tangent.xyz);
-                half3 normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangent, bitangent, input.normal));
+                half3 normalWS = TransformTangentToWorld(normalTS, float3x3(input.tangent, bitangent, input.normal));
     #else
                 half3 normalWS = input.normal;
     #endif

@@ -86,16 +86,24 @@ float4 TransformWViewToHClip(float3 positionVS)
     return mul(GetViewToHClipMatrix(), float4(positionVS, 1.0));
 }
 
-real3 TransformObjectToWorldDir(real3 dirOS)
+// Normalize to support uniform scaling
+float3 TransformObjectToWorldDir(float3 dirOS, bool doNormalize = true)
 {
-    // Normalize to support uniform scaling
-    return SafeNormalize(mul((real3x3)GetObjectToWorldMatrix(), dirOS));
+    float3 dirWS = mul((float3x3)GetObjectToWorldMatrix(), dirOS);
+    if (doNormalize)
+        return SafeNormalize(dirWS);
+        
+    return dirWS;
 }
 
-real3 TransformWorldToObjectDir(real3 dirWS)
+// Normalize to support uniform scaling
+float3 TransformWorldToObjectDir(float3 dirWS, bool doNormalize = true)
 {
-    // Normalize to support uniform scaling
-    return normalize(mul((real3x3)GetWorldToObjectMatrix(), dirWS));
+    float3 dirOS = mul((float3x3)GetWorldToObjectMatrix(), dirWS);
+    if (doNormalize)
+        return normalize(dirOS);
+        
+    return dirOS;
 }
 
 real3 TransformWorldToViewDir(real3 dirWS)

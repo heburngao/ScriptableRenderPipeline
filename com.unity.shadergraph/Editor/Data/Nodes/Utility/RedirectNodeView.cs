@@ -181,7 +181,7 @@ namespace UnityEditor.ShaderGraph
         {
             ClearMessage();
             IconBadge badge;
-            badge = IconBadge.CreateError(errString);
+            badge = IconBadge.CreateComment(errString);
 
             Add(badge);
             badge.AttachTo(outputContainer, SpriteAlignment.RightCenter);

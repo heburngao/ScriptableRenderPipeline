@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Graphing;
-using UnityEditor.ShaderGraph.Drawing;
+using UnityEditor.Rendering;
 using UnityEngine;
 using Edge = UnityEditor.Experimental.GraphView.Edge;
 
@@ -64,7 +64,7 @@ namespace UnityEditor.ShaderGraph
 
             if(noInputs && !noOutputs)
             {
-                owner.AddValidationError(tempId, "There seems to be Muppets in the choir here!");
+                owner.AddValidationError(tempId, "Node has no inputs and default value will be 0.", ShaderCompilerMessageSeverity.Warning);
             }
         }
     }

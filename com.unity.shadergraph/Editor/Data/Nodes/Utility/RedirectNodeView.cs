@@ -44,7 +44,6 @@ namespace UnityEditor.ShaderGraph
             title = "";
             m_GraphView = graphView;
             m_ConnectorListener = connectorListener;
-            //m_TitleContainer = this.Q("title");
 
             viewDataKey = node.guid.ToString();
 
@@ -91,18 +90,6 @@ namespace UnityEditor.ShaderGraph
                 matGraphView.graph.Connect(edge_outSlotRef, node_inSlotRef);
                 matGraphView.graph.Connect(node_outSlotRef, edge_inSlotRef);
             }
-
-            // Set the color of the ports
-            // MTT Remove this
-            // foreach (var port in inputContainer.Query<Port>().ToList())
-            // {
-            //     port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
-            // }
-            //
-            // foreach (var port in outputContainer.Query<Port>().ToList())
-            // {
-            //     port.visualClass = edge.output.GetSlot().concreteValueType.ToClassName();
-            // }
         }
 
         #region IShaderNodeView interface

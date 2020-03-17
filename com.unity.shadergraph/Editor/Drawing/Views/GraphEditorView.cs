@@ -285,15 +285,14 @@ namespace UnityEditor.ShaderGraph.Drawing
             {
                 var nodeData = new RedirectNodeData();
                 nodeData.SetPosition(context.screenMousePosition);
-                nodeData.m_Edge = context.edge;
 
                 // Need to check if the Nodes that are connected are in a group or not
                 // If they are in the same group we also add in the Redirect Node
-                var leftSlot = context.edge.output.GetSlot();
-                var rightSlot = context.edge.input.GetSlot();
+                var edgeOutputSlot = context.edge.output.GetSlot();
+                var edgeInputSlot = context.edge.input.GetSlot();
 
                 // Valuetype gets the type should be the type for input and output
-                switch(leftSlot.valueType)
+                switch(edgeOutputSlot.valueType)
                 {
                     case SlotValueType.Boolean:
                         nodeData.AddSlot(new BooleanMaterialSlot(0, "", "", SlotType.Input, false));
@@ -367,14 +366,26 @@ namespace UnityEditor.ShaderGraph.Drawing
                         throw new ArgumentOutOfRangeException();
                 }
 
-                var groupGuidLeftNode = m_Graph.GetNodeFromGuid(leftSlot.slotReference.nodeGuid).groupGuid;
-                var groupGuidRightNode = m_Graph.GetNodeFromGuid(rightSlot.slotReference.nodeGuid).groupGuid;
-                if (groupGuidLeftNode == groupGuidRightNode)
+                var groupGuidOutputNode = m_Graph.GetNodeFromGuid(edgeOutputSlot.slotReference.nodeGuid).groupGuid;
+                var groupGuidInputNode = m_Graph.GetNodeFromGuid(edgeInputSlot.slotReference.nodeGuid).groupGuid;
+                if (groupGuidOutputNode == groupGuidInputNode)
                 {
-                    nodeData.groupGuid = groupGuidLeftNode;
+                    nodeData.groupGuid = groupGuidOutputNode;
                 }
+
+                var edgeOutSlotRef = edgeOutputSlot.owner.GetSlotReference(edgeOutputSlot.id);
+                var edgeInSlotRef = edgeInputSlot.owner.GetSlotReference(edgeInputSlot.id);
+
+                // Hard-coded for single input-output. Changes would be needed for multi-input redirects
+                var nodeInSlotRef = nodeData.GetSlotReference(0);
+                var nodeOutSlotRef = nodeData.GetSlotReference(1);
+
                 m_Graph.owner.RegisterCompleteObjectUndo("Add Redirect Node");
                 m_Graph.AddNode(nodeData);
+
+                m_Graph.Connect(edgeOutSlotRef, nodeInSlotRef);
+                m_Graph.Connect(nodeOutSlotRef, edgeInSlotRef);
+
                 return;
             }
 
@@ -878,8 +889,8 @@ namespace UnityEditor.ShaderGraph.Drawing
             else if (node is RedirectNodeData redirectNodeData)
             {
                 var redirectNodeView = new RedirectNodeView { userData = redirectNodeData };
-                redirectNodeView.ConnectToData(materialNode, m_EdgeConnectorListener, graphView);
                 m_GraphView.AddElement(redirectNodeView);
+                redirectNodeView.ConnectToData(materialNode, m_EdgeConnectorListener, graphView);
                 nodeView = redirectNodeView;
             }
             else

@@ -15,21 +15,9 @@ namespace UnityEditor.ShaderGraph
     class RedirectNodeView : RedirectNode, IShaderNodeView
     {
         IEdgeConnectorListener m_ConnectorListener;
-        //VisualElement m_TitleContainer;
-        GraphView m_GraphView;
 
         public RedirectNodeView() : base()
         {
-        }
-
-        public override void InitializeFromEdge(Edge edge, GraphView graphView)
-        {
-            // Created from de-serialization
-            if(edge == null)
-                return;
-
-            orientation = edge.output.orientation;
-            SplitEdge(edge, graphView);
         }
 
         // Tie the nodeView to its data
@@ -39,10 +27,8 @@ namespace UnityEditor.ShaderGraph
                 return;
 
             // Set references
-            var nodeData = inNode as RedirectNodeData;
             node = inNode;
             title = "";
-            m_GraphView = graphView;
             m_ConnectorListener = connectorListener;
 
             viewDataKey = node.guid.ToString();
@@ -50,8 +36,6 @@ namespace UnityEditor.ShaderGraph
             // Set the VisualElement's position
             SetPosition(new Rect(node.drawState.position.x, node.drawState.position.y, 0, 0));
             AddSlots(node.GetSlots<MaterialSlot>());
-
-            InitializeFromEdge(nodeData.m_Edge, m_GraphView);
         }
 
         public void AddSlots(IEnumerable<MaterialSlot> slots)
@@ -67,28 +51,6 @@ namespace UnityEditor.ShaderGraph
                     outputContainer.Add(port);
                 else
                     inputContainer.Add(port);
-            }
-        }
-
-        public override void SplitEdge(Edge edge, GraphView graphView)
-        {
-            var nodeData = userData as AbstractMaterialNode;
-            var matGraphView = graphView as MaterialGraphView;
-
-            if (edge != null)
-            {
-                var edge_outSlot = edge.output.GetSlot();
-                var edge_inSlot = edge.input.GetSlot();
-
-                var edge_outSlotRef = edge_outSlot.owner.GetSlotReference(edge_outSlot.id);
-                var edge_inSlotRef = edge_inSlot.owner.GetSlotReference(edge_inSlot.id);
-
-                // Hard-coded for single input-output. Changes would be needed for multi-input redirects
-                var node_inSlotRef = nodeData.GetSlotReference(0);
-                var node_outSlotRef = nodeData.GetSlotReference(1);
-
-                matGraphView.graph.Connect(edge_outSlotRef, node_inSlotRef);
-                matGraphView.graph.Connect(node_outSlotRef, edge_inSlotRef);
             }
         }
 

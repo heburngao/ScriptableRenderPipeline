@@ -3,14 +3,11 @@ using System.Linq;
 using UnityEditor.Graphing;
 using UnityEditor.Rendering;
 using UnityEngine;
-using Edge = UnityEditor.Experimental.GraphView.Edge;
 
 namespace UnityEditor.ShaderGraph
 {
     class RedirectNodeData : AbstractMaterialNode
     {
-        public Edge m_Edge;
-
         // Maybe think of this in reverse?
         SlotReference m_slotReferenceInput;
         public SlotReference slotReferenceInput

@@ -25,8 +25,8 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
             static public readonly GUIContent InputFilters = EditorGUIUtility.TrTextContent("Input Filters", "A list of color filters that will be executed before composing the frame.");
             static public readonly GUIContent Properties = EditorGUIUtility.TrTextContent("Properties", "The properties of a layer or sub-layer.");
             static public readonly GUIContent RenderSchedule = EditorGUIUtility.TrTextContent("Render Schedule", "A list of layers and sub-layers in the scene. Layers are drawn from top to bottom.");
-            static public readonly string AlphaWarningPipeline = "The rendering pipeline was not configured to output an alpha channel. You can select a format that supports alpha in the HDRP quality settings.";
-            static public readonly string AlphaWarningPost = "The post processing system was not configured to process the alpha channel. . You can select a format that supports alpha in the HDRP quality settings.";
+            static public readonly string AlphaWarningPipeline = "The rendering pipeline was not configured to output an alpha channel. You can select a color buffer format that supports alpha in the HDRP quality settings.";
+            static public readonly string AlphaWarningPost = "The post processing system was not configured to process the alpha channel. You can select a buffer format that supports alpha in the HDRP quality settings.";
         }
 
         ReorderableList m_layerList;

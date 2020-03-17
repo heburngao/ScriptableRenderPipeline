@@ -8,6 +8,7 @@ using UnityEditor.Graphing;
 using UnityEditor.Graphing.Util;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering;
+using UnityEditor.ShaderGraph.Internal;
 using Debug = UnityEngine.Debug;
 using Object = UnityEngine.Object;
 
@@ -452,18 +453,30 @@ namespace UnityEditor.ShaderGraph.Drawing
                 if (!node.hasPreview && !(node is SubGraphOutputNode || node is VfxMasterNode))
                     continue;
 
-                var results = m_Graph.GetPreviewShader(node);
-
                 var renderData = GetRenderData(node.tempId);
                 if (renderData == null)
                 {
                     continue;
                 }
                 ShaderUtil.ClearCachedData(renderData.shaderData.shader);
+                
+                // Get shader code and compile
+                var generator = new Generator(node.owner, node, GenerationMode.Preview, $"hidden/preview/{node.GetVariableNameForNode()}");
+                BeginCompile(renderData, generator.generatedShader);
 
-                BeginCompile(renderData, results.shader);
-                //get the preview mode from generated results
-                renderData.previewMode = results.previewMode;
+                // Calculate the PreviewMode from upstream nodes
+                // If any upstream node is 3D that trickles downstream
+                List<AbstractMaterialNode> upstreamNodes = new List<AbstractMaterialNode>();
+                NodeUtils.DepthFirstCollectNodesFromNode(upstreamNodes, node, NodeUtils.IncludeSelf.Include);
+                renderData.previewMode = PreviewMode.Preview2D;
+                foreach (var pNode in upstreamNodes)
+                {
+                    if (pNode.previewMode == PreviewMode.Preview3D)
+                    {
+                        renderData.previewMode = PreviewMode.Preview3D;
+                        break;
+                    }
+                }
             }
 
             ShaderUtil.allowAsyncCompilation = wasAsyncAllowed;
@@ -552,9 +565,9 @@ namespace UnityEditor.ShaderGraph.Drawing
 
             if (masterNode == null)
                 return;
-
-            List<PropertyCollector.TextureInfo> configuredTextures;
-            shaderData.shaderString = masterNode.GetShader(GenerationMode.Preview, shaderData.node.name, out configuredTextures);
+            
+            var generator = new Generator(m_Graph, shaderData?.node, GenerationMode.Preview, shaderData?.node.name);
+            shaderData.shaderString = generator.generatedShader;
 
             if (string.IsNullOrEmpty(shaderData.shaderString))
             {

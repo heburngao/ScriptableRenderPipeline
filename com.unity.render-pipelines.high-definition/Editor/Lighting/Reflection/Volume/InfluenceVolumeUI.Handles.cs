@@ -102,6 +102,14 @@ namespace UnityEditor.Rendering.HighDefinition
             using (new Handles.DrawingScope(Matrix4x4.TRS(Vector3.zero, transform.rotation, Vector3.one)))
             {
                 box.center = Quaternion.Inverse(transform.rotation) * transform.position;
+
+                Vector3 localSize = serialized.boxSize.vector3Value;
+                for (int i = 0; i < 3; ++i)
+                {
+                    localSize[i] = Mathf.Max(Mathf.Epsilon, localSize[i]);
+                }
+                serialized.boxSize.vector3Value = localSize;
+
                 box.size = serialized.boxSize.vector3Value;
 
                 EditorGUI.BeginChangeCheck();
@@ -109,10 +117,6 @@ namespace UnityEditor.Rendering.HighDefinition
                 box.DrawHandle();
                 if (EditorGUI.EndChangeCheck())
                 {
-                    var newPosition = transform.rotation * box.center;
-                    Undo.RecordObject(transform, "Moving Influence");
-                    transform.position = newPosition;
-
                     // Clamp blend distances
                     var blendPositive = serialized.boxBlendDistancePositive.vector3Value;
                     var blendNegative = serialized.boxBlendDistanceNegative.vector3Value;

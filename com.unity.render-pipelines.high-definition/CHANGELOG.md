@@ -466,6 +466,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed issue that prevented cubemap thumbnails from rendering.
 - Fixed ray tracing with VR single-pass
 - Fix an exception in ray tracing that happens if two LOD levels are using the same mesh renderer.
+- Fixed an issue where default volume would not update when switching profile.
 
 ### Changed
 - Color buffer pyramid is not allocated anymore if neither refraction nor distortion are enabled

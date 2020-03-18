@@ -39,8 +39,12 @@ Shader "Hidden/Universal Render Pipeline/BokehDepthOfField"
         {
             UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
+            uint w;
+            uint h;
+            _CameraDepthTexture.GetDimensions(w, h);
+
             float2 uv = UnityStereoTransformScreenSpaceTex(input.uv);
-            float depth = LOAD_TEXTURE2D_X(_CameraDepthTexture, _MainTex_TexelSize.zw * uv).x;
+            float depth = LOAD_TEXTURE2D_X(_CameraDepthTexture, float2(w, h) * uv).x;
             float linearEyeDepth = LinearEyeDepth(depth, _ZBufferParams);
 
             half coc = (1.0 - FocusDist / linearEyeDepth) * MaxCoC;
@@ -293,7 +297,7 @@ Shader "Hidden/Universal Render Pipeline/BokehDepthOfField"
             ENDHLSL
         }
     }
-        
+
     // SM3.5 fallbacks - needed because of the use of Gather
     SubShader
     {

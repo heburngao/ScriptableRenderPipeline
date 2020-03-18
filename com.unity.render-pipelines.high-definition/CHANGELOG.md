@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed error in the console when switching shader to decal in the material UI.
 - Fixed z-fighting in scene view when scene lighting is off (case 1203927)
 - Fixed issue that prevented cubemap thumbnails from rendering.
+- Fixed issue when rescale the reflection probe to zero the probe move (1219246)
 
 ### Changed
 - Rejecting history for ray traced reflections based on a threshold evaluated on the neighborhood of the sampled history.

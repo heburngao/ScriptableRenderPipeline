@@ -150,6 +150,7 @@ Shader "HDRP/Lit"
         [HideInInspector] _DstBlend("__dst", Float) = 0.0
         [HideInInspector] _AlphaSrcBlend("__alphaSrc", Float) = 1.0
         [HideInInspector] _AlphaDstBlend("__alphaDst", Float) = 0.0
+        [HideInInspector][ToggleUI]_AlphaToMask("__alphaToMask", Float) = 1
         [HideInInspector][ToggleUI] _ZWrite("__zw", Float) = 1.0
         [HideInInspector][ToggleUI] _TransparentZWrite("_TransparentZWrite", Float) = 0.0
         [HideInInspector] _CullMode("__cullmode", Float) = 2.0
@@ -234,6 +235,7 @@ Shader "HDRP/Lit"
     //-------------------------------------------------------------------------------------
 
     #pragma shader_feature_local _ALPHATEST_ON
+    #pragma shader_feature_local _ALPHATOMASK_ON
     #pragma shader_feature_local _DEPTHOFFSET_ON
     #pragma shader_feature_local _DOUBLESIDED_ON
     #pragma shader_feature_local _ _VERTEX_DISPLACEMENT _PIXEL_DISPLACEMENT
@@ -506,6 +508,7 @@ Shader "HDRP/Lit"
             Tags{ "LightMode" = "DepthOnly" }
 
             Cull[_CullMode]
+            AlphaToMask [_AlphaToMask]
 
             // To be able to tag stencil with disableSSR information for forward
             Stencil
@@ -565,6 +568,7 @@ Shader "HDRP/Lit"
             }
 
             Cull[_CullMode]
+            AlphaToMask [_AlphaToMask]
 
             ZWrite On
 

@@ -786,6 +786,24 @@ namespace UnityEditor.Rendering.HighDefinition
         }
 
         [SerializeField]
+        bool m_AlphaToMask = false;
+
+        public ToggleData alphaToMask
+        {
+            get { return new ToggleData(m_AlphaToMask); }
+            set
+            {
+                if (m_AlphaToMask == value.isOn)
+                    return;
+
+                m_AlphaToMask = value.isOn;
+                Dirty(ModificationScope.Graph);
+            }
+        }
+
+
+
+        [SerializeField]
         int m_MaterialNeedsUpdateHash = 0;
 
         int ComputeMaterialNeedsUpdateHash()
@@ -1131,6 +1149,7 @@ namespace UnityEditor.Rendering.HighDefinition
 
                 // Misc
                 new ConditionalField(Fields.AlphaTest,                      alphaTest.isOn && pass.pixelPorts.Contains(AlphaThresholdSlotId)),
+                new ConditionalField(Fields.AlphaToMask,                    alphaTest.isOn && pass.pixelPorts.Contains(AlphaThresholdSlotId) && alphaToMask.isOn),
                 new ConditionalField(HDFields.AlphaTestShadow,              alphaTest.isOn && alphaTestShadow.isOn && 
                                                                                 pass.pixelPorts.Contains(AlphaThresholdShadowSlotId)),
                 new ConditionalField(HDFields.AlphaTestPrepass,             alphaTest.isOn && pass.pixelPorts.Contains(AlphaThresholdDepthPrepassSlotId)),
@@ -1289,6 +1308,7 @@ namespace UnityEditor.Rendering.HighDefinition
                 surfaceType,
                 HDSubShaderUtilities.ConvertAlphaModeToBlendMode(alphaMode),
                 sortPriority,
+                alphaToMask.isOn,
                 zWrite.isOn,
                 transparentCullMode,
                 zTest,

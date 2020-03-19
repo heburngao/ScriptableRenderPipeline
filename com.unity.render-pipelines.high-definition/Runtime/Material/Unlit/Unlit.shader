@@ -46,6 +46,7 @@ Shader "HDRP/Unlit"
         [HideInInspector] _DstBlend("__dst", Float) = 0.0
         [HideInInspector] _AlphaSrcBlend("__alphaSrc", Float) = 1.0
         [HideInInspector] _AlphaDstBlend("__alphaDst", Float) = 0.0
+        [HideInInspector][ToggleUI]_AlphaToMask("__alphaToMask", Float) = 1
         [HideInInspector][ToggleUI] _ZWrite("__zw", Float) = 1.0
         [HideInInspector][ToggleUI] _TransparentZWrite("_TransparentZWrite", Float) = 0.0
         [HideInInspector] _CullMode("__cullmode", Float) = 2.0
@@ -99,6 +100,7 @@ Shader "HDRP/Unlit"
     //-------------------------------------------------------------------------------------
 
     #pragma shader_feature_local _ALPHATEST_ON
+    #pragma shader_feature_local _ALPHATOMASK_ON
     // #pragma shader_feature_local _DOUBLESIDED_ON - We have no lighting, so no need to have this combination for shader, the option will just disable backface culling
 
     #pragma shader_feature_local _EMISSIVE_COLOR_MAP
@@ -187,6 +189,7 @@ Shader "HDRP/Unlit"
             }
 
             Cull[_CullMode]
+            AlphaToMask [_AlphaToMask]
 
             ZWrite On
 
@@ -235,6 +238,7 @@ Shader "HDRP/Unlit"
             }
 
             Cull[_CullMode]
+            AlphaToMask [_AlphaToMask]
 
             ZWrite On
 

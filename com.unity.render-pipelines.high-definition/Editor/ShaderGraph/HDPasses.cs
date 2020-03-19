@@ -1221,7 +1221,7 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
                 structs = HDStructCollections.Default,
                 requiredFields = HDRequiredFields.LitFull,
                 fieldDependencies = HDFieldDependencies.Default,
-                renderStates = HDRenderStates.HairDepthOnly,
+                renderStates = HDRenderStates.HDDepthOnly,
                 pragmas = HDPragmas.InstancedRenderingLayer,
                 defines = HDDefines.DepthMotionVectors,
                 keywords = HDKeywords.HDDepthMotionVectorsNoNormal,

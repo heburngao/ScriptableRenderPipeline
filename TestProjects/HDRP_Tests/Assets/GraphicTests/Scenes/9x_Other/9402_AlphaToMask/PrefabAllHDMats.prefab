@@ -1095,7 +1095,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localSpace: 0
   vector: {x: 0.5, y: 0, z: 0}
-  frequency: 5
+  frequency: 0.1
   fps: 60
 --- !u!1 &4722329109321885202
 GameObject:
@@ -1302,7 +1302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localSpace: 0
   vector: {x: 0.5, y: 0, z: 0}
-  frequency: 5
+  frequency: 0.1
   fps: 60
 --- !u!1 &4722329109361008861
 GameObject:
@@ -1928,7 +1928,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localSpace: 0
   vector: {x: 0.5, y: 0, z: 0}
-  frequency: 5
+  frequency: 0.1
   fps: 60
 --- !u!1 &4722329109974021989
 GameObject:
@@ -2266,7 +2266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localSpace: 0
   vector: {x: 0.5, y: 0, z: 0}
-  frequency: 5
+  frequency: 0.1
   fps: 60
 --- !u!1 &4722329110181936242
 GameObject:
@@ -3220,7 +3220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localSpace: 0
   vector: {x: 0.5, y: 0, z: 0}
-  frequency: 5
+  frequency: 0.1
   fps: 60
 --- !u!1 &4722329110701077274
 GameObject:
@@ -3364,7 +3364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localSpace: 0
   vector: {x: 0.5, y: 0, z: 0}
-  frequency: 5
+  frequency: 0.1
   fps: 60
 --- !u!1 &4722329110768680790
 GameObject:

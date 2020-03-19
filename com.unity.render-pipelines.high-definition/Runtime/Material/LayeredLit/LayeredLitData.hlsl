@@ -818,7 +818,7 @@ void GetSurfaceAndBuiltinData(FragInputs input, float3 V, inout PositionInputs p
 
     GetBuiltinData(input, V, posInput, surfaceData, alpha, bentNormalWS, depthOffset, builtinData);
 
-#ifdef _ALPHATOMASK_ON
+#ifdef _ALPHATEST_ON
     // Used for sharpening by alpha to mask
     builtinData.alphaClipTreshold = _AlphaCutoff;
 #endif

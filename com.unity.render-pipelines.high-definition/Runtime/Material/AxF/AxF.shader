@@ -86,7 +86,7 @@ Shader "HDRP/AxF"
         [HideInInspector] _BlendMode("__blendmode", Float) = 0.0
         [HideInInspector] _SrcBlend("__src", Float) = 1.0
         [HideInInspector] _DstBlend("__dst", Float) = 0.0
-        [HideInInspector][ToggleUI]_AlphaToMask("__alphaToMask", Float) = 1
+        [HideInInspector][ToggleUI]_AlphaToMask("__alphaToMask", Float) = 0
         [HideInInspector][ToggleUI] _ZWrite("__zw", Float) = 1.0
         [HideInInspector][ToggleUI] _TransparentZWrite("_TransparentZWrite", Float) = 0.0
         [HideInInspector] _CullMode("__cullmode", Float) = 2.0

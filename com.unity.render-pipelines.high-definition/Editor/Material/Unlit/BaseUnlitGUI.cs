@@ -21,7 +21,7 @@ namespace UnityEditor.Rendering.HighDefinition
 
             bool alphaToMaskEnable = alphaTestEnable && material.HasProperty(kAlphaToMask) && material.GetFloat(kAlphaToMask) > 0.0f;
             CoreUtils.SetKeyword(material, "_ALPHATOMASK_ON", alphaToMaskEnable);
-
+            
             SurfaceType surfaceType = material.GetSurfaceType();
             CoreUtils.SetKeyword(material, "_SURFACE_TYPE_TRANSPARENT", surfaceType == SurfaceType.Transparent);
 

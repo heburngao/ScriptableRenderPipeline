@@ -458,6 +458,9 @@ namespace UnityEditor.Rendering.LookDev
         Vector2 m_LastSecondViewSize = new Vector2();
         void IViewDisplayer.SetTexture(ViewCompositionIndex index, Texture texture)
         {
+            if (texture == null)
+                return;
+
             bool updated = false;
             switch (index)
             {

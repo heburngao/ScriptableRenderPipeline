@@ -205,8 +205,6 @@ namespace UnityEditor.Rendering.LookDev
 
         void OnEnable()
         {
-            Debug.Log("OnEnable");
-
             //Stylesheet             
             // Try to load stylesheet. Timing can be odd while upgrading packages (case 1219692).
             // In this case, it will be fixed in OnGUI. Though it can spawn error while reimporting assets.

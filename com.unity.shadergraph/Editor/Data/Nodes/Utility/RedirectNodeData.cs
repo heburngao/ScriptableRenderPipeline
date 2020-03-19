@@ -43,14 +43,14 @@ namespace UnityEditor.ShaderGraph
             bool noInputs = false;
             bool noOutputs = false;
             var slots = new List<ISlot>();
-            GetInputSlots(slots);
 
+            GetInputSlots(slots);
             foreach (var inSlot in slots)
             {
                 var edges = owner.GetEdges(inSlot.slotReference).ToList();
                 noInputs = !edges.Any();
-
             }
+
             slots.Clear();
             GetOutputSlots(slots);
             foreach (var outSlot in slots)

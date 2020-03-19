@@ -64,10 +64,6 @@ namespace UnityEditor.ShaderGraph.Drawing
 
         public void ResizeMasterPreview(Vector2 newSize)
         {
-            if (float.IsNaN(newSize.x) || float.IsNaN(newSize.y))
-            {
-                throw new ArgumentException("New size is NANANANANANNNANNANANANANNANANANNNANANANNA");
-            }
             m_NewMasterPreviewSize = newSize;
         }
 
@@ -105,8 +101,7 @@ namespace UnityEditor.ShaderGraph.Drawing
                 renderData.renderTexture.width = renderData.renderTexture.height = 400;
             }
 
-            var createResult = renderData.renderTexture.Create();
-            Assert.IsTrue(createResult);
+            renderData.renderTexture.Create();
 
             var shaderData = new PreviewShaderData
             {
@@ -459,7 +454,7 @@ namespace UnityEditor.ShaderGraph.Drawing
                     continue;
                 }
                 ShaderUtil.ClearCachedData(renderData.shaderData.shader);
-                
+
                 // Get shader code and compile
                 var generator = new Generator(node.owner, node, GenerationMode.Preview, $"hidden/preview/{node.GetVariableNameForNode()}");
                 BeginCompile(renderData, generator.generatedShader);
@@ -565,7 +560,7 @@ namespace UnityEditor.ShaderGraph.Drawing
 
             if (masterNode == null)
                 return;
-            
+
             var generator = new Generator(m_Graph, shaderData?.node, GenerationMode.Preview, shaderData?.node.name);
             shaderData.shaderString = generator.generatedShader;
 

@@ -284,7 +284,7 @@ namespace UnityEditor.ShaderGraph.Drawing
             {
                 var nodeData = new RedirectNodeData();
                 nodeData.SetPosition(context.screenMousePosition);
-
+                
                 // Need to check if the Nodes that are connected are in a group or not
                 // If they are in the same group we also add in the Redirect Node
                 var edgeOutputSlot = context.edge.output.GetSlot();
@@ -539,11 +539,6 @@ namespace UnityEditor.ShaderGraph.Drawing
                     {
                         if (edge.input.node is IShaderNodeView materialNodeView)
                             nodesToUpdate.Add(materialNodeView);
-                        // if (edge.input.node is RedirectNode)
-                        // {
-                        //     // MT what should I do here, If Anything?
-                        //     Debug.Log(edge.input.node);
-                        // }
                     }
                     if (edge.output != null)
                     {
@@ -888,7 +883,7 @@ namespace UnityEditor.ShaderGraph.Drawing
             {
                 var redirectNodeView = new RedirectNodeView { userData = redirectNodeData };
                 m_GraphView.AddElement(redirectNodeView);
-                redirectNodeView.ConnectToData(materialNode, m_EdgeConnectorListener, graphView);
+                redirectNodeView.ConnectToData(materialNode, m_EdgeConnectorListener);
                 nodeView = redirectNodeView;
             }
             else

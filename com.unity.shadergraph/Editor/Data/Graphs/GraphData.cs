@@ -637,7 +637,7 @@ namespace UnityEditor.ShaderGraph
                 // If one edge is already deleted then we can not re-create.
                 if (serializableNode is RedirectNodeData redirectNode)
                 {
-                    SlotReference leftSlot = new SlotReference();
+                    SlotReference inputSlotRef = new SlotReference();
 
                     using (var tempInputSlots = PooledList<MaterialSlot>.Get())
                     {
@@ -652,11 +652,11 @@ namespace UnityEditor.ShaderGraph
                                 continue;
                             }
 
-                            leftSlot = inEdges.ToList()[0].outputSlot;
+                            inputSlotRef = inEdges.ToList()[0].outputSlot;
                         }
                     }
 
-                    List<SlotReference> rightSlots =  new List<SlotReference>();
+                    List<SlotReference> outputSlotRefs =  new List<SlotReference>();
                     using (var tempOutputSlots = PooledList<MaterialSlot>.Get())
                     {
                         redirectNode.GetOutputSlots(tempOutputSlots);
@@ -671,14 +671,14 @@ namespace UnityEditor.ShaderGraph
 
                             foreach (var edge in outEdges)
                             {
-                                rightSlots.Add(edge.inputSlot);
+                                outputSlotRefs.Add(edge.inputSlot);
                             }
                         }
                     }
 
-                    foreach (SlotReference rightSlot in rightSlots)
+                    foreach (SlotReference slot in outputSlotRefs)
                     {
-                        Connect(leftSlot, rightSlot);
+                        Connect(inputSlotRef, slot);
                     }
                 }
 
@@ -1464,7 +1464,7 @@ namespace UnityEditor.ShaderGraph
 
             m_ValidTargets = foundTargets;
             m_ValidImplementations = foundImplementations.Where(s => s.targetType == foundTargets[0].GetType()).ToList();
-            
+
         }
     }
 

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-
 using UnityEditor.Graphing;
 using UnityEditor.ShaderGraph.Drawing;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
-using Edge = UnityEditor.Experimental.GraphView.Edge;
 
 namespace UnityEditor.ShaderGraph
 {
@@ -18,10 +16,11 @@ namespace UnityEditor.ShaderGraph
 
         public RedirectNodeView() : base()
         {
+            styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNodeViewB"));
         }
 
         // Tie the nodeView to its data
-        public void ConnectToData(AbstractMaterialNode inNode, IEdgeConnectorListener connectorListener, GraphView graphView)
+        public void ConnectToData(AbstractMaterialNode inNode, IEdgeConnectorListener connectorListener)
         {
             if (inNode == null)
                 return;
@@ -33,9 +32,21 @@ namespace UnityEditor.ShaderGraph
 
             viewDataKey = node.guid.ToString();
 
+
             // Set the VisualElement's position
             SetPosition(new Rect(node.drawState.position.x, node.drawState.position.y, 0, 0));
             AddSlots(node.GetSlots<MaterialSlot>());
+            var inputPorts = inputContainer.Children().OfType<ShaderPort>().ToList();
+            orientation = inputPorts[0].orientation;
+
+            // Removing a divider that made the ui a bit ugly
+            VisualElement contents = mainContainer.Q("contents");
+            VisualElement divider = contents?.Q("divider");
+
+            if (divider != null)
+            {
+                divider.RemoveFromHierarchy();
+            }
         }
 
         public void AddSlots(IEnumerable<MaterialSlot> slots)

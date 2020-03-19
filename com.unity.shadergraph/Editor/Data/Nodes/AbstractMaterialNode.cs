@@ -293,10 +293,9 @@ namespace UnityEditor.ShaderGraph
 
                     if (fromLeftNode != null && fromLeftNode.GetType() != typeof(RedirectNodeData))
                     {
-                        return ShaderGenerator.AdaptNodeOutput(fromLeftNode, slotRef.slotId, inputSlot.concreteValueType);
+                        return GenerationUtils.AdaptNodeOutput(fromLeftNode, slotRef.slotId, inputSlot.concreteValueType);
                     }
 
-                    // should we do this if redirect node doesnt have any input edges??
                     return redirNode.GetSlotValue(0, generationMode);
                 }
 

@@ -60,8 +60,6 @@ namespace UnityEditor.ShaderGraph.Drawing
             foreach (var candidateAnchor in ports.ToList())
             {
                 var candidateSlot = candidateAnchor.GetSlot();
-                // if (candidateSlot.owner is RedirectNodeData)
-                //     continue;
 
                 if (!startSlot.IsCompatibleWith(candidateSlot))
                     continue;
@@ -172,7 +170,7 @@ namespace UnityEditor.ShaderGraph.Drawing
                     if (filteredSelection.Count > 0)
                         return DropdownMenuAction.Status.Normal;
 
-                        return DropdownMenuAction.Status.Disabled;
+                    return DropdownMenuAction.Status.Disabled;
                 });
 
                 evt.menu.AppendAction("Ungroup Selection %u", _ => RemoveFromGroupNode(), (a) =>
@@ -194,27 +192,27 @@ namespace UnityEditor.ShaderGraph.Drawing
                     if (filteredSelection.Count > 0)
                         return DropdownMenuAction.Status.Normal;
 
-                        return DropdownMenuAction.Status.Disabled;
+                    return DropdownMenuAction.Status.Disabled;
                 });
             }
 
             if (evt.target is ShaderGroup shaderGroup)
-                {
+            {
                 if (!selection.Contains(shaderGroup))
-                        {
+                {
                     selection.Add(shaderGroup);
-                            }
+                }
 
                 var data = shaderGroup.userData;
                 int count = evt.menu.MenuItems().Count;
                 evt.menu.InsertAction(count, "Delete Group and Contents", (e) => RemoveNodesInsideGroup(e, data), DropdownMenuAction.AlwaysEnabled);
-                }
+            }
 
             if (evt.target is BlackboardField)
-                {
+            {
                 evt.menu.AppendAction("Delete", (e) => DeleteSelectionImplementation("Delete", AskUser.DontAskUser), (e) => canDeleteSelection ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
-                }
             }
+        }
 
         void RemoveNodesInsideGroup(DropdownMenuAction action, GroupData data)
             {
@@ -232,7 +230,7 @@ namespace UnityEditor.ShaderGraph.Drawing
 
             // Check which precisions are available to switch to
             foreach (MaterialNodeView selectedNode in selection.Where(x => x is MaterialNodeView).Select(x => x as MaterialNodeView))
-                {
+            {
                 if (selectedNode.node.precision != Precision.Inherit)
                     inheritPrecisionAction = DropdownMenuAction.Status.Normal;
                 if (selectedNode.node.precision != Precision.Float)

@@ -17,23 +17,11 @@ namespace UnityEditor.ShaderGraph.Drawing
 
         public static Port Create(MaterialSlot slot, IEdgeConnectorListener connectorListener)
         {
-            ShaderPort port = new ShaderPort(Orientation.Horizontal, slot.isInputSlot ? Direction.Input : Direction.Output,
+            var port = new ShaderPort(Orientation.Horizontal, slot.isInputSlot ? Direction.Input : Direction.Output,
                 slot.isInputSlot ? Capacity.Single : Capacity.Multi, null)
             {
                 m_EdgeConnector = new EdgeConnector<Edge>(connectorListener),
             };
-
-            port.AddManipulator(port.m_EdgeConnector);
-            port.slot = slot;
-            port.portName = slot.displayName;
-            port.visualClass = slot.concreteValueType.ToClassName();
-            return port;
-        }
-
-        public static Port CreateWithNoEdgeConnector(MaterialSlot slot)
-        {
-            ShaderPort port = new ShaderPort(Orientation.Horizontal, slot.isInputSlot ? Direction.Input : Direction.Output,
-                slot.isInputSlot ? Capacity.Single : Capacity.Multi, null);
 
             port.AddManipulator(port.m_EdgeConnector);
             port.slot = slot;

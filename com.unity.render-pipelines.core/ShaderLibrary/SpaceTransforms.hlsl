@@ -161,42 +161,42 @@ real3 TransformWorldToTangent(real3 dirWS, real3x3 tangentToWorld)
 {
     // Note matrix is in row major convention with left multiplication as it is build on the fly
     float3 row0 = tangentToWorld[0];
-	float3 row1 = tangentToWorld[1];
-	float3 row2 = tangentToWorld[2];
-
-	// these are the columns of the inverse matrix but scaled by the determinant
-	float3 col0 = cross(row1, row2);
-	float3 col1 = cross(row2, row0);
-	float3 col2 = cross(row0, row1);
-
-	float determinant = dot(row0, col0);
-	float sgn = determinant<0.0 ? (-1.0) : 1.0;
-
-	// inverse transposed but scaled by determinant
-	// Will remove transpose part by using matrix as the first arg in the mul() below
-	// this makes it the exact inverse of what TransformTangentToWorld() does.
-	real3x3 matTBN_I_T = real3x3(col0, col1, col2);
-
-	return SafeNormalize( sgn * mul(matTBN_I_T, dirWS) );
+    float3 row1 = tangentToWorld[1];
+    float3 row2 = tangentToWorld[2];
+    
+    // these are the columns of the inverse matrix but scaled by the determinant
+    float3 col0 = cross(row1, row2);
+    float3 col1 = cross(row2, row0);
+    float3 col2 = cross(row0, row1);
+    
+    float determinant = dot(row0, col0);
+    float sgn = determinant<0.0 ? (-1.0) : 1.0;
+    
+    // inverse transposed but scaled by determinant
+    // Will remove transpose part by using matrix as the first arg in the mul() below
+    // this makes it the exact inverse of what TransformTangentToWorld() does.
+    real3x3 matTBN_I_T = real3x3(col0, col1, col2);
+    
+    return SafeNormalize( sgn * mul(matTBN_I_T, dirWS) );
 }
 
 real3 TransformTangentToObject(real3 dirTS, real3x3 tangentToWorld)
 {
     // Note matrix is in row major convention with left multiplication as it is build on the fly
-	real3 normalWS = TransformTangentToWorld(dirTS, tangentToWorld);
-	return TransformWorldToObjectNormal(normalWS);
+    real3 normalWS = TransformTangentToWorld(dirTS, tangentToWorld);
+    return TransformWorldToObjectNormal(normalWS);
 }
 
 real3 TransformObjectToTangent(real3 dirOS, real3x3 tangentToWorld)
 {
     // Note matrix is in row major convention with left multiplication as it is build on the fly
 
-	// corresponds to TransformObjectToWorldNormal(dirOS) but without the SafeNormalize() since 
-	// this is done at the end in TransformWorldToTangent().
-	float3 normalWS = mul(dirOS, (float3x3)GetWorldToObjectMatrix());
-
-	// transform from world to tangent
-	return TransformWorldToTangent(normalWS, tangentToWorld);
+    // corresponds to TransformObjectToWorldNormal(dirOS) but without the SafeNormalize() since 
+    // this is done at the end in TransformWorldToTangent().
+    float3 normalWS = mul(dirOS, (float3x3)GetWorldToObjectMatrix());
+    
+    // transform from world to tangent
+    return TransformWorldToTangent(normalWS, tangentToWorld);
 }
 
 #endif

@@ -8,48 +8,48 @@ The following table shows the compatibility of URP package versions with differe
 
 <table>
   <tr>
-    <th rowspan="2">URP versions</th>
-    <th colspan="4">Unity versions</th>
+    <th rowspan="2"  width="10%">URP version</th>
+    <th colspan="4">Unity Editor version</th>
   </tr>
   <tr>
-    <td>2019.3.0f3</td>
-    <td>2019.3.0f6</td>
-    <td>2019.3.2f1</td>
-    <td>2020.1.0a23</td>
+    <td width="20%">2019.3.0f3</td>
+    <td width="20%">2019.3.0f6</td>
+    <td width="20%">2019.3.2f1</td>
+    <td width="20%">2020.1.0a23–2020.1.0b1</td>
   </tr>
   <tr>
     <td>9.x.x</td>
     <td>-</td>
     <td>-</td>
     <td>-</td>
-    <td>+</td>
+    <td>Yes</td>
   </tr>
   <tr>
     <td>8.x.x</td>
     <td>-</td>
     <td>-</td>
     <td>-</td>
-    <td>+</td>
+    <td>Yes</td>
   </tr>
   <tr>
     <td>7.3.x</td>
     <td>-</td>
     <td>-</td>
-    <td>+</td>
-    <td>+</td>
+    <td>Yes</td>
+    <td>Yes</td>
   </tr>
   <tr>
     <td>7.2.x</td>
     <td>-</td>
-    <td>+</td>
-    <td>+</td>
+    <td>Yes</td>
+    <td>Yes</td>
     <td>-</td>
   </tr>
   <tr>
     <td>7.1.8</td>
-    <td>+</td>
-    <td>+</td>
-    <td>+</td>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>Yes</td>
     <td>-</td>
   </tr>
 </table>

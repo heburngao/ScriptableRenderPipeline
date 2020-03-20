@@ -4,13 +4,55 @@ This page contains information on system requirements and compatibility of this 
 
 ## Unity Editor compatibility
 
-The following list contains the minimum Unity Editor versions required for a specific URP package version.
+The following table shows the compatibility of URP package versions with different Unity Editor versions.
 
-* URP 9.x.x: Unity 2020.1.0a23 and later.
-* URP 8.x.x: Unity 2020.1.0a23 and later.
-* URP 7.3.x: Unity 2019.3.2f1 and later.
-* URP 7.2.x: Unity 2019.3.0f6 and later.
-* URP 7.1.8: Unity 2019.3.0f3 and later.
+<table>
+  <tr>
+    <th rowspan="2">URP versions</th>
+    <th colspan="4">Unity versions</th>
+  </tr>
+  <tr>
+    <td>2019.3.0f3</td>
+    <td>2019.3.0f6</td>
+    <td>2019.3.2f1</td>
+    <td>2020.1.0a23</td>
+  </tr>
+  <tr>
+    <td>9.x.x</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>+</td>
+  </tr>
+  <tr>
+    <td>8.x.x</td>
+    <td>-</td>
+    <td>-</td>
+    <td>-</td>
+    <td>+</td>
+  </tr>
+  <tr>
+    <td>7.3.x</td>
+    <td>-</td>
+    <td>-</td>
+    <td>+</td>
+    <td>+</td>
+  </tr>
+  <tr>
+    <td>7.2.x</td>
+    <td>-</td>
+    <td>+</td>
+    <td>+</td>
+    <td>-</td>
+  </tr>
+  <tr>
+    <td>7.1.8</td>
+    <td>+</td>
+    <td>+</td>
+    <td>+</td>
+    <td>-</td>
+  </tr>
+</table>
 
 ## Render pipeline compatibility
 

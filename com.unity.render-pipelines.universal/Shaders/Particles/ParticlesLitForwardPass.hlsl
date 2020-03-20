@@ -14,8 +14,8 @@ struct AttributesParticle
 #else
     float2 texcoords : TEXCOORD0;
 #endif
-    float4 tangent : TANGENT;
-     UNITY_VERTEX_INPUT_INSTANCE_ID
+    float4 tangentOS : TANGENT;
+    UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
 struct VaryingsParticle
@@ -25,14 +25,11 @@ struct VaryingsParticle
 
     float4 positionWS               : TEXCOORD1;
 
-#ifdef _NORMALMAP
-    float4 normalWS                 : TEXCOORD2;    // xyz: normal, w: viewDir.x
-    float4 tangentWS                : TEXCOORD3;    // xyz: tangent, w: viewDir.y
-    float4 bitangentWS              : TEXCOORD4;    // xyz: bitangent, w: viewDir.z
-#else
     float3 normalWS                 : TEXCOORD2;
-    float3 viewDirWS                : TEXCOORD3;
+#ifdef _NORMALMAP
+    float4 tangentWS                : TEXCOORD3;    // xyz: tangent, w: sign
 #endif
+    float3 viewDirWS                : TEXCOORD4;
 
 #if defined(_FLIPBOOKBLENDING_ON)
     float3 texcoord2AndBlend        : TEXCOORD5;
@@ -57,21 +54,16 @@ void InitializeInputData(VaryingsParticle input, half3 normalTS, out InputData o
 
     output.positionWS = input.positionWS.xyz;
 
-#ifdef _NORMALMAP
-    half3 viewDirWS = half3(input.normalWS.w, input.tangentWS.w, input.bitangentWS.w);
-    output.normalWS = TransformTangentToWorld(normalTS,
-        half3x3(input.tangentWS.xyz, input.bitangentWS.xyz, input.normalWS.xyz));
+    half3 viewDirWS = SafeNormalize(input.viewDirWS);
+#ifdef _NORMALMAP 
+    float sgn = input.tangentWS.w;      // should be either +1 or -1
+    float3 bitangent = sgn * cross(input.normalWS.xyz, input.tangentWS.xyz);
+    output.normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangentWS.xyz, bitangent.xyz, input.normalWS.xyz));
 #else
-    half3 viewDirWS = input.viewDirWS;
     output.normalWS = input.normalWS;
 #endif
 
     output.normalWS = NormalizeNormalPerPixel(output.normalWS);
-
-#if SHADER_HINT_NICE_QUALITY
-    viewDirWS = SafeNormalize(viewDirWS);
-#endif
-
     output.viewDirectionWS = viewDirWS;
 
 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
@@ -99,24 +91,21 @@ VaryingsParticle ParticlesLitVertex(AttributesParticle input)
     UNITY_TRANSFER_INSTANCE_ID(input, output);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+    // normalWS and tangentWS already normalize.
+    // this is required to avoid skewing the direction during interpolation
+    // also required for per-vertex lighting and SH evaluation
     VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
-    VertexNormalInputs normalInput = GetVertexNormalInputs(input.normal, input.tangent);
+    VertexNormalInputs normalInput = GetVertexNormalInputs(input.normal, input.tangentOS);
     half3 viewDirWS = GetCameraPositionWS() - vertexInput.positionWS;
-
-#if !SHADER_HINT_NICE_QUALITY
-    viewDirWS = SafeNormalize(viewDirWS);
-#endif
-
     half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
     half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
 
-#ifdef _NORMALMAP
-    output.normalWS = half4(normalInput.normalWS, viewDirWS.x);
-    output.tangentWS = half4(normalInput.tangentWS, viewDirWS.y);
-    output.bitangentWS = half4(normalInput.bitangentWS, viewDirWS.z);
-#else
+    // already normalized from normal transform to WS.
     output.normalWS = normalInput.normalWS;
     output.viewDirWS = viewDirWS;
+#ifdef _NORMALMAP
+    real sign = input.tangentOS.w * GetOddNegativeScale();
+    output.tangentWS = half4(normalInput.tangentWS.xyz, sign);
 #endif
 
     OUTPUT_SH(output.normalWS.xyz, output.vertexSH);

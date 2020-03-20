@@ -25,10 +25,8 @@ struct Varyings
     float3 normalWS                 : TEXCOORD3;
 #ifdef _NORMALMAP
     float4 tangentWS                : TEXCOORD4;    // xyz: tangent, w: sign
-    float3 viewDirWS				: TEXCOORD5;
-#else
-    float3 viewDirWS                : TEXCOORD4;
 #endif
+    float3 viewDirWS                : TEXCOORD5;
 
     half4 fogFactorAndVertexLight   : TEXCOORD6; // x: fogFactor, yzw: vertex light
 

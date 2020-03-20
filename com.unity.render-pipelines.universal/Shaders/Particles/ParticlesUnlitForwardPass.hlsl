@@ -14,7 +14,7 @@ struct AttributesParticle
 #else
     float2 texcoords : TEXCOORD0;
 #endif
-    float4 tangent : TANGENT;
+    float4 tangentOS : TANGENT;
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
@@ -23,25 +23,20 @@ struct VaryingsParticle
     half4 color                     : COLOR;
     float2 texcoord                 : TEXCOORD0;
 
-    float4 positionWS               : TEXCOORD1;
+    float4 positionWS               : TEXCOORD1; // xyz: positionWS, w: fogCoord
 
+    float3 normalWS                 : TEXCOORD2;
 #ifdef _NORMALMAP
-    half4 normalWS                  : TEXCOORD2;    // xyz: normal, w: viewDir.x
-    half4 tangentWS                 : TEXCOORD3;    // xyz: tangent, w: viewDir.y
-    half4 bitangentWS               : TEXCOORD4;    // xyz: bitangent, w: viewDir.z
-#else
-    half3 normalWS                  : TEXCOORD2;
-    half3 viewDirWS                 : TEXCOORD3;
+    float4 tangentWS                : TEXCOORD3;    // xyz: tangent, w: sign
 #endif
 
 #if defined(_FLIPBOOKBLENDING_ON)
-    float3 texcoord2AndBlend        : TEXCOORD5;
+    float3 texcoord2AndBlend        : TEXCOORD4;
 #endif
 #if defined(_SOFTPARTICLES_ON) || defined(_FADING_ON) || defined(_DISTORTION_ON)
-    float4 projectedPosition        : TEXCOORD6;
+    float4 projectedPosition        : TEXCOORD5;
 #endif
 
-    float3 vertexSH                 : TEXCOORD8; // SH
     float4 clipPos                  : SV_POSITION;
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
@@ -53,26 +48,16 @@ void InitializeInputData(VaryingsParticle input, half3 normalTS, out InputData o
 
     output.positionWS = input.positionWS.xyz;
 
-#ifdef _NORMALMAP
-    half3 viewDirWS = half3(input.normalWS.w, input.tangentWS.w, input.bitangentWS.w);
-    output.normalWS = TransformTangentToWorld(normalTS,
-        half3x3(input.tangentWS.xyz, input.bitangentWS.xyz, input.normalWS.xyz));
+#ifdef _NORMALMAP 
+    float sgn = input.tangentWS.w;      // should be either +1 or -1
+    float3 bitangent = sgn * cross(input.normalWS.xyz, input.tangentWS.xyz);
+    output.normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangentWS.xyz, bitangent.xyz, input.normalWS.xyz));
 #else
-    half3 viewDirWS = input.viewDirWS;
-    output.normalWS = input.normalWS;
+    output.normalWS = NormalizeNormalPerPixel(input.normalWS);
 #endif
 
     output.normalWS = NormalizeNormalPerPixel(output.normalWS);
-
-#if SHADER_HINT_NICE_QUALITY
-    viewDirWS = SafeNormalize(viewDirWS);
-#endif
-
-    output.viewDirectionWS = viewDirWS;
-
     output.fogCoord = (half)input.positionWS.w;
-    output.vertexLighting = half3(0.0h, 0.0h, 0.0h);
-    output.bakedGI = SampleSHPixel(input.vertexSH, output.normalWS);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -88,7 +73,7 @@ VaryingsParticle vertParticleUnlit(AttributesParticle input)
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
     VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
-    VertexNormalInputs normalInput = GetVertexNormalInputs(input.normal, input.tangent);
+    VertexNormalInputs normalInput = GetVertexNormalInputs(input.normal, input.tangentOS);
 
     // position ws is used to compute eye depth in vertFading
     output.positionWS.xyz = vertexInput.positionWS;
@@ -96,18 +81,11 @@ VaryingsParticle vertParticleUnlit(AttributesParticle input)
     output.clipPos = vertexInput.positionCS;
     output.color = input.color;
 
-    half3 viewDirWS = GetCameraPositionWS() - vertexInput.positionWS;
-#if !SHADER_HINT_NICE_QUALITY
-    viewDirWS = SafeNormalize(viewDirWS);
-#endif
-
-#ifdef _NORMALMAP
-    output.normalWS = half4(normalInput.normalWS, viewDirWS.x);
-    output.tangentWS = half4(normalInput.tangentWS, viewDirWS.y);
-    output.bitangentWS = half4(normalInput.bitangentWS, viewDirWS.z);
-#else
+    // already normalized from normal transform to WS.
     output.normalWS = normalInput.normalWS;
-    output.viewDirWS = viewDirWS;
+#ifdef _NORMALMAP
+    real sign = input.tangentOS.w * GetOddNegativeScale();
+    output.tangentWS = half4(normalInput.tangentWS.xyz, sign);
 #endif
 
     output.texcoord = input.texcoords.xy;

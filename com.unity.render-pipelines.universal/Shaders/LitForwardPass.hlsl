@@ -22,7 +22,7 @@ struct Varyings
     float3 positionWS               : TEXCOORD2;
 #endif
 
-	float3 normalWS                 : TEXCOORD3;
+    float3 normalWS                 : TEXCOORD3;
 #ifdef _NORMALMAP
     float4 tangentWS                : TEXCOORD4;    // xyz: tangent, w: sign
     float3 viewDirWS				: TEXCOORD5;

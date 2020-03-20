@@ -92,7 +92,7 @@ float3 TransformObjectToWorldDir(float3 dirOS, bool doNormalize = true)
     float3 dirWS = mul((float3x3)GetObjectToWorldMatrix(), dirOS);
     if (doNormalize)
         return SafeNormalize(dirWS);
-        
+
     return dirWS;
 }
 
@@ -102,40 +102,57 @@ float3 TransformWorldToObjectDir(float3 dirWS, bool doNormalize = true)
     float3 dirOS = mul((float3x3)GetWorldToObjectMatrix(), dirWS);
     if (doNormalize)
         return normalize(dirOS);
-        
+
     return dirOS;
 }
 
-real3 TransformWorldToViewDir(real3 dirWS)
+// Tranforms vector from world space to view space
+real3 TransformWorldToViewDir(real3 dirWS, bool doNormalize = false)
 {
-    return mul((real3x3)GetWorldToViewMatrix(), dirWS).xyz;
+    float3 dirVS = mul((real3x3)GetWorldToViewMatrix(), dirWS).xyz;
+    if (doNormalize)
+        return normalize(dirVS);
+
+    return dirVS; 
 }
 
 // Tranforms vector from world space to homogenous space
-real3 TransformWorldToHClipDir(real3 directionWS)
+real3 TransformWorldToHClipDir(real3 directionWS, bool doNormalize = false)
 {
-    return mul((real3x3)GetWorldToHClipMatrix(), directionWS);
+    float dirHCS = mul((real3x3)GetWorldToHClipMatrix(), directionWS);
+    if (doNormalize)
+        return normalize(dirHCS);
+
+    return dirHCS;
 }
 
 // Transforms normal from object to world space
-float3 TransformObjectToWorldNormal(float3 normalOS)
+float3 TransformObjectToWorldNormal(float3 normalOS, bool doNormalize = true)
 {
 #ifdef UNITY_ASSUME_UNIFORM_SCALING
-    return TransformObjectToWorldDir(normalOS);
+    return TransformObjectToWorldDir(normalOS, doNormalize);
 #else
     // Normal need to be multiply by inverse transpose
-    return SafeNormalize(mul(normalOS, (float3x3)GetWorldToObjectMatrix()));
+    float3 normalWS = mul(normalOS, (float3x3)GetWorldToObjectMatrix());
+    if (doNormalize)
+        return SafeNormalize(normalWS);
+
+    return normalWS;
 #endif
 }
 
 // Transforms normal from world to object space
-float3 TransformWorldToObjectNormal(float3 normalWS)
+float3 TransformWorldToObjectNormal(float3 normalWS, bool doNormalize = true)
 {
 #ifdef UNITY_ASSUME_UNIFORM_SCALING
-    return TransformWorldToObjectDir(normalWS);
+    return TransformWorldToObjectDir(normalWS, doNormalize);
 #else
     // Normal need to be multiply by inverse transpose
-    return SafeNormalize(mul(normalWS, (float3x3)GetObjectToWorldMatrix()));
+    float3 normalOS = mul(normalWS, (float3x3)GetObjectToWorldMatrix());
+    if (doNormalize)
+        return SafeNormalize(normalOS);
+
+    return normalOS;
 #endif
 }
 
@@ -191,9 +208,8 @@ real3 TransformObjectToTangent(real3 dirOS, real3x3 tangentToWorld)
 {
     // Note matrix is in row major convention with left multiplication as it is build on the fly
 
-    // corresponds to TransformObjectToWorldNormal(dirOS) but without the SafeNormalize() since 
-    // this is done at the end in TransformWorldToTangent().
-    float3 normalWS = mul(dirOS, (float3x3)GetWorldToObjectMatrix());
+    // don't normalize, as normalWS will be normalized after TransformWorldToTangent 
+    float3 normalWS = TransformObjectToWorldNormal(dirOS, false);
     
     // transform from world to tangent
     return TransformWorldToTangent(normalWS, tangentToWorld);

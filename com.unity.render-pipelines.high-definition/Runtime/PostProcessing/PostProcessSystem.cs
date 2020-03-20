@@ -520,6 +520,10 @@ namespace UnityEngine.Rendering.HighDefinition
                         cs.shaderKeywords = null;
                         var featureFlags = GetUberFeatureFlags(isSceneView);
                         int kernel = cs.FindKernel("Uber");
+                        if(m_EnableAlpha)
+                        {
+                            cs.EnableKeyword("ENABLE_ALPHA");
+                        }
 
                         // Generate the bloom texture
                         bool bloomActive = m_Bloom.IsActive() && m_BloomFS;
@@ -1175,7 +1179,9 @@ namespace UnityEngine.Rendering.HighDefinition
                         // The other compute fails hard on Intel because of texture format issues
                         cs = m_Resources.shaders.depthOfFieldMipSafeCS;
                         cs.shaderKeywords = null;
-                        cs.EnableKeyword("ENABLE_ALPHA");
+                        if(m_EnableAlpha)
+                            cs.EnableKeyword("ENABLE_ALPHA");
+
                         kernel = cs.FindKernel("KMain");
 
                         var mipScale = scale;

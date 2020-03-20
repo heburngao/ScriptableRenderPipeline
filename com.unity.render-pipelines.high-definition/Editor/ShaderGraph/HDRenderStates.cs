@@ -508,6 +508,7 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
             { RenderState.Blend(Blend.One, Blend.Zero) },
             { RenderState.Cull(Uniforms.cullMode) },
             { RenderState.ZWrite(ZWrite.On) },
+            // Note: we use default ZTest LEqual so if the object have already been render in depth prepass, it will re-render to tag stencil
         };
 
         // --------------------------------------------------

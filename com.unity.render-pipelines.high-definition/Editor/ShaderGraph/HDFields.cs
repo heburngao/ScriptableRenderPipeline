@@ -87,9 +87,10 @@ namespace UnityEditor.Rendering.HighDefinition
         public static FieldDescriptor HazyGloss =               new FieldDescriptor(kDualSpecularLobeParametrization, "HazyGloss", "_MATERIAL_FEATURE_HAZY_GLOSS");
 
         // Misc
-        public static FieldDescriptor AlphaTestShadow =         new FieldDescriptor(string.Empty, "AlphaTestShadow", "_ALPHA_TEST_SHADOW 1");
-        public static FieldDescriptor AlphaTestPrepass =        new FieldDescriptor(string.Empty, "AlphaTestPrepass", "_ALPHA_TEST_PREPASS 1");
-        public static FieldDescriptor AlphaTestPostpass =       new FieldDescriptor(string.Empty, "AlphaTestPostpass", "_ALPHA_TEST_POSTPASS 1");
+        public static FieldDescriptor DoAlphaTest =             new FieldDescriptor(string.Empty, "DoAlphaTest", "_DO_ALPHA_TEST 1");
+        public static FieldDescriptor DoAlphaTestShadow =       new FieldDescriptor(string.Empty, "DoAlphaTestShadow", "_DO_ALPHA_TEST_SHADOW 1");
+        public static FieldDescriptor DoAlphaTestPrepass =      new FieldDescriptor(string.Empty, "DoAlphaTestPrepass", "_DO_ALPHA_TEST_PREPASS 1");
+        public static FieldDescriptor DoAlphaTestPostpass =     new FieldDescriptor(string.Empty, "DoAlphaTestPostpass", "_DO_ALPHA_TEST_POSTPASS 1");
         public static FieldDescriptor AlphaFog =                new FieldDescriptor(string.Empty, "AlphaFog", "_ENABLE_FOG_ON_TRANSPARENT 1");
         public static FieldDescriptor BlendPreserveSpecular =   new FieldDescriptor(Fields.kBlendMode, "PreserveSpecular", "_BLENDMODE_PRESERVE_SPECULAR_LIGHTING 1");
         public static FieldDescriptor DisableDecals =           new FieldDescriptor(string.Empty, "DisableDecals", "_DISABLE_DECALS 1");

@@ -8,9 +8,9 @@ The following table shows the compatibility of URP package versions with differe
 
 | Package version | Minimum Unity version | Maximum Unity version |
 |-----------------|-----------------------|-----------------------|
-| 9.x.x           | 2020.1.0a23           | 2020.1.x (latest)     |
-| 8.x.x           | 2020.1.0a23           | 2020.1.x (latest)     |
-| 7.3.x           | 2019.3.2f1            | 2020.1.x (latest)     |
+| 9.x.x           | 2020.1.0a23           | 2020.1.x (latest version) |
+| 8.x.x           | 2020.1.0a23           | 2020.1.x (latest version) |
+| 7.3.x           | 2019.3.2f1            | 2020.1.x (latest version) |
 | 7.2.x           | 2019.3.0f6            | 2019.4.x (planned)    |
 | 7.1.8           | 2019.3.0f3            | 2019.4.x (planned)    |
 

@@ -49,11 +49,11 @@ void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData
     inputData.positionWS = input.positionWS;
 #endif
 
-	half3 viewDirWS = SafeNormalize(input.viewDirWS);
+    half3 viewDirWS = SafeNormalize(input.viewDirWS);
 #ifdef _NORMALMAP 
-	float sgn = input.tangentWS.w;		// should be either +1 or -1
-	float3 bitangent = sgn * cross(input.normalWS.xyz, input.tangentWS.xyz);
-    inputData.normalWS = TransformTangentToWorld(normalTS, float3x3(input.tangentWS.xyz, bitangent.xyz, input.normalWS.xyz));
+    float sgn = input.tangentWS.w;      // should be either +1 or -1
+    float3 bitangent = sgn * cross(input.normalWS.xyz, input.tangentWS.xyz);
+    inputData.normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangentWS.xyz, bitangent.xyz, input.normalWS.xyz));
 #else
     inputData.normalWS = input.normalWS;
 #endif
@@ -99,10 +99,11 @@ Varyings LitPassVertex(Attributes input)
 
     output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
 
-	output.normalWS = normalInput.normalWS;	// already normalized from normal transform to WS.
+    // already normalized from normal transform to WS.
+    output.normalWS = normalInput.normalWS;
     output.viewDirWS = viewDirWS;
 #ifdef _NORMALMAP
-	real sign = input.tangentOS.w * GetOddNegativeScale();
+    real sign = input.tangentOS.w * GetOddNegativeScale();
     output.tangentWS = half4(normalInput.tangentWS.xyz, sign);
 #endif
 

@@ -127,9 +127,9 @@ Shader "Universal Render Pipeline/Baked Lit"
 
     #if defined(_NORMALMAP)
                 half3 normalTS = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap)).xyz;
-				float sgn = input.tangentWS.w;		// should be either +1 or -1
-				float3 bitangent = sgn * cross(input.normal.xyz, input.tangent.xyz);
-                half3 normalWS = TransformTangentToWorld(normalTS, float3x3(input.tangent, bitangent, input.normal));
+                float sgn = input.tangentWS.w;      // should be either +1 or -1
+                float3 bitangent = sgn * cross(input.normal.xyz, input.tangent.xyz);
+                half3 normalWS = TransformTangentToWorld(normalTS, half3x3(input.tangent, bitangent, input.normal));
     #else
                 half3 normalWS = input.normal;
     #endif

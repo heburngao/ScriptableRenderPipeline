@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEditor.ShaderGraph;
@@ -16,6 +16,7 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
         {
             return (masterNode is FabricMasterNode ||
                     masterNode is HDLitMasterNode ||
+                    masterNode is StackLitMasterNode ||
                     masterNode is HDUnlitMasterNode);
         }
         public bool IsPipelineCompatible(RenderPipelineAsset currentPipeline)
@@ -32,6 +33,9 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
             {
                 case FabricMasterNode fabricMasterNode:
                     context.SetupSubShader(HDSubShaders.FabricRaytracing);
+                    break;
+                case StackLitMasterNode stackLitMasterNode:
+                    context.SetupSubShader(HDSubShaders.StackLitRaytracing);
                     break;
                 case HDLitMasterNode hDLitMasterNode:
                     context.SetupSubShader(HDSubShaders.HDLitRaytracing);

@@ -1,4 +1,5 @@
 #ifdef HAS_LIGHTLOOP
+
 IndirectLighting EvaluateBSDF_RaytracedReflection(LightLoopContext lightLoopContext,
                                                     BSDFData bsdfData,
                                                     PreLightData preLightData,
@@ -6,10 +7,33 @@ IndirectLighting EvaluateBSDF_RaytracedReflection(LightLoopContext lightLoopCont
 {
     IndirectLighting lighting;
     ZERO_INITIALIZE(IndirectLighting, lighting);
-    lighting.specularReflected = reflection.rgb * preLightData.specularFGD;
+
+    float3 reflectanceFactor = (float3)0.0;
+
+    if (IsVLayeredEnabled(bsdfData))
+    {
+        reflectanceFactor = preLightData.specularFGD[COAT_LOBE_IDX];
+        reflectanceFactor *= preLightData.hemiSpecularOcclusion[COAT_LOBE_IDX];
+        // TODOENERGY: If vlayered, should be done in ComputeAdding with FGD formulation for non dirac lights.
+        // Incorrect, but for now:
+        reflectanceFactor *= preLightData.energyCompensationFactor[COAT_LOBE_IDX];
+    }
+    else
+    {
+        for(int i = 0; i < TOTAL_NB_LOBES; i++)
+        {
+            float3 lobeFactor = preLightData.specularFGD[i]; // note: includes the lobeMix factor, see PreLightData.
+            lobeFactor *= preLightData.hemiSpecularOcclusion[i];
+            // TODOENERGY: If vlayered, should be done in ComputeAdding with FGD formulation for non dirac lights.
+            // Incorrect, but for now:
+            lobeFactor *= preLightData.energyCompensationFactor[i];
+            reflectanceFactor += lobeFactor;
+        }
+    }
+
+    lighting.specularReflected = reflection.rgb * reflectanceFactor;
     return lighting;
 }
-
 
 IndirectLighting EvaluateBSDF_RaytracedRefraction(LightLoopContext lightLoopContext,
                                                     PreLightData preLightData,
@@ -28,11 +52,11 @@ void FitToStandardLit( SurfaceData surfaceData
                         , out StandardBSDFData outStandardlit)
 {    
     outStandardlit.baseColor = surfaceData.baseColor;
-    outStandardlit.specularOcclusion = surfaceData.specularOcclusion;
+    outStandardlit.specularOcclusion = surfaceData.specularOcclusionCustomInput;
     outStandardlit.normalWS = surfaceData.normalWS;
-    outStandardlit.perceptualRoughness = PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothness);
+    outStandardlit.perceptualRoughness = PerceptualSmoothnessToPerceptualRoughness(surfaceData.perceptualSmoothnessA);
     outStandardlit.fresnel0 = surfaceData.specularColor;
-    outStandardlit.coatMask = 0.0;
+    outStandardlit.coatMask = surfaceData.coatMask;
     outStandardlit.emissiveAndBaked = builtinData.bakeDiffuseLighting * surfaceData.ambientOcclusion + builtinData.emissiveColor;
 #ifdef LIGHT_LAYERS
     outStandardlit.renderingLayers = builtinData.renderingLayers;

@@ -9,7 +9,7 @@ The following table shows the compatibility of URP package versions with differe
 <table>
   <tr>
     <th rowspan="2"  width="10%">URP version</th>
-    <th colspan="4">Unity Editor version</th>
+    <th colspan="4">Unity versions</th>
   </tr>
   <tr>
     <td width="20%">2019.3.0f3</td>

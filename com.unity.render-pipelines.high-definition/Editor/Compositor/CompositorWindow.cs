@@ -7,6 +7,7 @@ using UnityEngine.Rendering.HighDefinition.Compositor;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEditor.ShaderGraph;
+using UnityEditor.SceneManagement;
 
 namespace UnityEditor.Rendering.HighDefinition.Compositor
 {
@@ -46,7 +47,15 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
             {
                 enableCompositor = compositor.enabled;
             }
+
+            bool enableCompositorCached = enableCompositor;
             enableCompositor = EditorGUILayout.Toggle(TextUI.EnableCompositor, enableCompositor);
+
+            // Track if the user changed the compositor enable state and mark the scene dirty if necessary
+            if (enableCompositorCached != enableCompositor)
+            {
+                EditorUtility.SetDirty(compositor);
+            }
 
             if (compositor == null && enableCompositor)
             {
@@ -87,6 +96,7 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
                             }
                             CoreUtils.Destroy(compositor.outputCamera.gameObject);
                             CoreUtils.Destroy(compositor.outputCamera);
+                            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
                         }
                     }
                     

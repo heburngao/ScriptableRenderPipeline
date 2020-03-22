@@ -70,7 +70,7 @@ templates:
     hascodependencies: 1
   - name: UniversalTemplate
     id: universal_template
-    packagename: com.unity.render-pipelines.universal
+    packagename: com.unity.template-universal
     dependencies:
       - .yamato/upm-ci-packages.yml#pack_core
       - .yamato/upm-ci-packages.yml#pack_shadergraph

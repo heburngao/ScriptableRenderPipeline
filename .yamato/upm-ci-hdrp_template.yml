@@ -11,7 +11,7 @@ test_platforms:
     flavor: m1.mac
 ---
 pack:
-  name: Pack
+  name: Pack_Template
   agent:
     type: Unity::VM
     image: package-ci/win10:stable
@@ -22,7 +22,7 @@ pack:
   artifacts:
     packages:
       paths:
-        - "upm-ci~/**/*"
+        - "com.unity.template-hd/upm-ci~/**/*"
 
   {% for editor in test_editors %}
   {% for platform in test_platforms %}
@@ -38,7 +38,7 @@ test_{{ platform.name }}_{{ editor.version }}:
   artifacts:
     logs:
       paths:
-        - "upm-ci~/test-results/**/*"
+        - "com.unity.template-hd/upm-ci~/test-results/**/*"
   dependencies:
     - .yamato/upm-ci-hdrp_template.yml#pack
   {% endfor %}
@@ -62,11 +62,11 @@ test_trigger:
   artifacts:
     logs:
       paths:
-        - "upm-ci~/test-results/**/*"
+        - "com.unity.template-hd/upm-ci~/test-results/**/*"
     packages:
       paths:
-        - "upm-ci~/packages/**/*"
-        - "upm-ci~/templates/**/*"
+        - "com.unity.template-hd/upm-ci~/packages/**/*"
+        - "com.unity.template-hd/upm-ci~/templates/**/*"
   dependencies:
     - .yamato/upm-ci-hdrp_template.yml#pack
     {% for editor in test_editors %}
@@ -91,11 +91,11 @@ nightly_trigger:
   artifacts:
     logs:
       paths:
-        - "upm-ci~/test-results/**/*"
+        - "com.unity.template-hd/upm-ci~/test-results/**/*"
     packages:
       paths:
-        - "upm-ci~/packages/**/*"
-        - "upm-ci~/templates/**/*"
+        - "com.unity.template-hd/upm-ci~/packages/**/*"
+        - "com.unity.template-hd/upm-ci~/templates/**/*"
   dependencies:
     - .yamato/upm-ci-hdrp_template.yml#pack
     {% for editor in test_editors %}
@@ -123,11 +123,11 @@ publish:
   artifacts:
     logs:
       paths:
-        - "upm-ci~/test-results/**/*"
+        - "com.unity.template-hd/upm-ci~/test-results/**/*"
     packages:
       paths:
-        - "upm-ci~/packages/**/*"
-        - "upm-ci~/templates/*.tgz"
+        - "com.unity.template-hd/upm-ci~/packages/**/*"
+        - "com.unity.template-hd/upm-ci~/templates/*.tgz"
   dependencies:
     - .yamato/upm-ci.yml#pack
     {% for editor in test_editors %}

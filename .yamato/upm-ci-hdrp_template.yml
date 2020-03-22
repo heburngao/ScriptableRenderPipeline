@@ -18,6 +18,7 @@ pack:
     flavor: b1.large
   commands:
     - npm install upm-ci-utils@stable -g --registry https://api.bintray.com/npm/unity/unity-npm
+    - cd com.unity.template-hd
     - upm-ci template pack --keep-project-settings
   artifacts:
     packages:
@@ -40,7 +41,7 @@ test_{{ platform.name }}_{{ editor.version }}:
       paths:
         - "upm-ci~/test-results/**/*"
   dependencies:
-    - .yamato/upm-ci.yml#pack
+    - .yamato/upm-ci-hdrp_template.yml#pack
   {% endfor %}
   {% endfor %}
 
@@ -68,10 +69,10 @@ test_trigger:
         - "upm-ci~/packages/**/*"
         - "upm-ci~/templates/**/*"
   dependencies:
-    - .yamato/upm-ci.yml#pack
+    - .yamato/upm-ci-hdrp_template.yml#pack
     {% for editor in test_editors %}
     {% for platform in test_platforms %}
-    - .yamato/upm-ci.yml#test_{{platform.name}}_{{editor.version}}
+    - .yamato/upm-ci-hdrp_template.yml#test_{{platform.name}}_{{editor.version}}
     {% endfor %}
     {% endfor %}
 
@@ -97,10 +98,10 @@ nightly_trigger:
         - "upm-ci~/packages/**/*"
         - "upm-ci~/templates/**/*"
   dependencies:
-    - .yamato/upm-ci.yml#pack
+    - .yamato/upm-ci-hdrp_template.yml#pack
     {% for editor in test_editors %}
     {% for platform in test_platforms %}
-    - path: .yamato/upm-ci.yml#test_{{platform.name}}_{{editor.version}}
+    - path: .yamato/upm-ci-hdrp_template.yml#test_{{platform.name}}_{{editor.version}}
       rerun: always
     {% endfor %}
     {% endfor %}

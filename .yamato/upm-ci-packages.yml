@@ -66,7 +66,7 @@ templates:
       - .yamato/upm-ci-packages.yml#pack_vfx
       - .yamato/upm-ci-packages.yml#pack_config
       - .yamato/upm-ci-packages.yml#pack_hdrp
-      - .yamato/upm-ci-template.yml#pack_hdrp_template
+      - .yamato/upm-ci-packages.yml#pack_hdrp_template
     hascodependencies: 1
   - name: UniversalTemplate
     id: universal_template
@@ -75,7 +75,7 @@ templates:
       - .yamato/upm-ci-packages.yml#pack_core
       - .yamato/upm-ci-packages.yml#pack_shadergraph
       - .yamato/upm-ci-packages.yml#pack_universal
-      - .yamato/upm-ci-template.yml#pack_universal_template
+      - .yamato/upm-ci-packages.yml#pack_universal_template
     hascodependencies: 1
 platforms:
     - name: win

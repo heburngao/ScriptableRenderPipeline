@@ -57,7 +57,7 @@ packages:
       - .yamato/upm-ci-packages.yml#pack_config
     hascodependencies: 1
 templates:
-  - name: HDRPTemplate
+  - name: HDRP_Template
     id: hdrp_template
     packagename: com.unity.template-hd
     dependencies:
@@ -68,7 +68,7 @@ templates:
       - .yamato/upm-ci-packages.yml#pack_hdrp
       - .yamato/upm-ci-packages.yml#pack_hdrp_template
     hascodependencies: 1
-  - name: UniversalTemplate
+  - name: Universal_Template
     id: universal_template
     packagename: com.unity.template-universal
     dependencies:

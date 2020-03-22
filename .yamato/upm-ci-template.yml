@@ -50,6 +50,7 @@ pack_{{ package.id }}:
     packages:
       paths:
         - "upm-ci~/packages/**/*"
+        - "upm-ci~/templates/**/*"
 {% endfor %}
 
 {% for editor in editors %}

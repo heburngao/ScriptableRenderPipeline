@@ -247,9 +247,6 @@ namespace UnityEngine.Rendering.HighDefinition
             [Reload("Runtime/PostProcessing/Shaders/TemporalAntialiasing.shader")]
             public Shader temporalAntialiasingPS;
 
-            [Reload("Runtime/PostProcessing/Shaders/OldTAA.shader")]
-            public Shader oldTAA;
-
             [Reload("Runtime/PostProcessing/Shaders/ContrastAdaptiveSharpen.compute")]
             public ComputeShader contrastAdaptiveSharpenCS;
 

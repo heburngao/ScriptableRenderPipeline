@@ -172,11 +172,9 @@ namespace UnityEngine.Rendering.HighDefinition
         internal int                    taaFrameIndex;
         internal float                  taaSharpenStrength;
         internal float                  taaHistorySharpening;
-        // REMOVE THE FOLLOWING TWO
         internal float                  taaAntiFlicker;
         internal float                  taaMotionVectorRejection;
         internal bool                   taaAntiRinging;
-        internal bool oldTAA;
 
         internal Vector4                zBufferParams;
         internal Vector4                unity_OrthoParams;
@@ -855,7 +853,6 @@ namespace UnityEngine.Rendering.HighDefinition
                     taaAntiFlicker = m_AdditionalCameraData.taaAntiFlicker;
                     taaAntiRinging = m_AdditionalCameraData.taaAntiHistoryRinging;
                     taaMotionVectorRejection = m_AdditionalCameraData.taaMotionVectorRejection;
-                    oldTAA = m_AdditionalCameraData.oldTAA;
 
                 }
                 else

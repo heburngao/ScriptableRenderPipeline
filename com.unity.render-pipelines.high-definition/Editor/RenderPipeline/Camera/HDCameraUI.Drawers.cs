@@ -485,7 +485,6 @@ namespace UnityEditor.Rendering.HighDefinition
                     EditorGUILayout.PropertyField(p.taaAntiRinging, TAAAntiRingingContent);
                 }
 
-                EditorGUILayout.PropertyField(p.oldTAA, OldTAA);
                 EditorGUI.indentLevel--;
             }
         }

@@ -1,4 +1,4 @@
-Shader "Hidden/HDRP/TAA2"
+Shader "Hidden/HDRP/TemporalAA"
 {
     Properties
     {
@@ -28,8 +28,8 @@ Shader "Hidden/HDRP/TAA2"
         // ---------------------------------------------------
         // Tier definitions
         // ---------------------------------------------------
-        //  TODO: YCoCg gives better result in terms of ghosting reduction, but it also seems to cause
-        //  some additional aliasing that is undesirable. Would like to investigate better. 
+        //  TODO: YCoCg gives better result in terms of ghosting reduction, but it also seems to let through
+        //  some additional aliasing that is undesirable in some occasions. Would like to investigate better. 
 #ifdef LOW_QUALITY
     #define YCOCG 0
     #define HISTORY_SAMPLING_METHOD BILINEAR
@@ -52,7 +52,7 @@ Shader "Hidden/HDRP/TAA2"
     #define ANTI_FLICKER 1
     #define VELOCITY_REJECTION (defined(ENABLE_MV_REJECTION) && 0)
     #define PERCEPTUAL_SPACE 1
-    #define PERCEPTUAL_SPACE_ONLY_END 1 && (PERCEPTUAL_SPACE == 0)
+    #define PERCEPTUAL_SPACE_ONLY_END 0 && (PERCEPTUAL_SPACE == 0)
 
 
 #elif defined(HIGH_QUALITY) // TODO: We can do better in term of quality here (e.g. subpixel changes etc) and can be optimized a bit more

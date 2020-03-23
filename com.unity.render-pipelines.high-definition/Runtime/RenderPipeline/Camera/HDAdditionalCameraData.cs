@@ -296,9 +296,6 @@ namespace UnityEngine.Rendering.HighDefinition
         /// <summary>When enabled, ringing artifacts (dark or strangely saturated edges) caused by history sharpening will be improved. This comes at a potential loss of sharpness upon motion.</summary>
         public bool taaAntiHistoryRinging = false;
 
-        // REMOVE!
-        public bool oldTAA = false;
-
         /// <summary>Physical camera parameters.</summary>
         public HDPhysicalCamera physicalParameters = new HDPhysicalCamera();
 

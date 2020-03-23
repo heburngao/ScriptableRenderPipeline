@@ -7,11 +7,11 @@ namespace Unity.Testing.VisualEffectGraph
 {
     public class LoadVFXFromAssetBundle : MonoBehaviour
     {
-        public static string s_AssetBundlePath = "Assets/StreamingAssets/VFX_Bundle_Test";
+        public static string s_AssetBundleName = "VFX_Bundle_Test";
 
         void Start()
         {
-            var basePath = s_AssetBundlePath;
+            var basePath = System.IO.Path.Combine(Application.streamingAssetsPath, s_AssetBundleName);
             var fullPath = System.IO.Path.Combine(basePath, "vfx_in_assetbundle");
             if (!System.IO.File.Exists(fullPath))
             {

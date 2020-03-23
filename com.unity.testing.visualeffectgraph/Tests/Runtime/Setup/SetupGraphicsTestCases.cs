@@ -26,7 +26,7 @@ public class SetupGraphicsTestCases : IPrebuildSetup
             EditorUtility.ClearProgressBar();
         }
 
-        var bundlePath = Unity.Testing.VisualEffectGraph.LoadVFXFromAssetBundle.s_AssetBundlePath;
+        var bundlePath = "Assets/StreamingAssets/" + Unity.Testing.VisualEffectGraph.LoadVFXFromAssetBundle.s_AssetBundleName;
         if (!Directory.Exists(bundlePath))
         {
             Directory.CreateDirectory(bundlePath);

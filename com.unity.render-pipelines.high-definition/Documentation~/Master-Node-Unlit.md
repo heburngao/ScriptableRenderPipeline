@@ -55,12 +55,14 @@ To view these properties, click the **Cog** icon in the top right of the master 
 | **Double Sided**     						|Enable or disable whether or not the Shader should be rendered on both sides of a geometry.|
 | **Alpha Clipping**                 		|Enable the checkbox to make this Material act like a [Cutout Shader](https://docs.unity3d.com/Manual/StandardShaderMaterialParameterRenderingMode.html). Enabling this feature exposes more properties. For more information about the feature and for the  list of properties this feature exposes, see the [Alpha Clipping documentation](Alpha-Clipping.html).|
 | **Shadow Matte**                          |Enable or disable whether or not the Shader receive the shadow.|
+| **Override ShaderGUI**                  |Lets you override the [ShaderGUI](https://docs.unity3d.com/ScriptReference/ShaderGUI.html) that this Shader Graph uses. If `true`, the **ShaderGUI** property appears, which lets you specify the ShaderGUI to use. |
+| **- ShaderGUI**                           |The full name of the ShaderGUI class to use, including the class path.|
 
 <a name="MaterialProperties"></a>
 
 ### Material Inspector
 
-These properties are in the **Exposed Properties** section of the Inspector and sit alongside the properties that you exposed in the Shader Graph's Blackboard.
+These properties are in the **Exposed Properties** section of the Inspector and sit alongside the properties that you exposed in the Shader Graph's Blackboard. If you set **Override ShaderGUI** to `true`, the Material Properties section does not appear, and instead, the ShaderGUI you specified appears.
 
 | **Property**                           | **Description**                                              |
 | -------------------------------------- | ------------------------------------------------------------ |

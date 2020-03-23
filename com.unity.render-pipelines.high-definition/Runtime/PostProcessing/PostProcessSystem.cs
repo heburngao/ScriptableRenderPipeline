@@ -929,7 +929,6 @@ namespace UnityEngine.Rendering.HighDefinition
                 m_TemporalAAMaterial.EnableKeyword("ENABLE_MV_REJECTION");
             }
 
-
             switch (camera.TAAQuality)
             {
                 case HDAdditionalCameraData.TAAQualityLevel.Low:

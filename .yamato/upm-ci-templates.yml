@@ -1,3 +1,8 @@
+editors:
+  - version: trunk
+  - version: 2020.1
+  - version: fast-trunk
+  - version: fast-2020.1
 templates:
   - name: HDRP Template
     id: hdrp_template
@@ -19,6 +24,29 @@ templates:
       - .yamato/upm-ci-packages.yml#pack_universal
       - .yamato/upm-ci-packages.yml#pack_universal_template
     hascodependencies: 1
+platforms:
+    - name: win
+      os: windows
+      components:
+      - editor
+      - il2cpp
+      agent:
+        type: Unity::VM
+        image: package-ci/win10:stable
+        flavor: b1.large
+      copycmd: copy upm-ci~\packages\*.tgz .Editor\Data\Resources\PackageManager\Editor
+      editorpath: .\.Editor
+    - name: mac
+      os: macos
+      components:
+      - editor
+      - il2cpp
+      agent:
+        type: Unity::VM::osx
+        image: buildfarm/mac:stable
+        flavor: m1.mac
+      copycmd: cp ./upm-ci~/packages/*.tgz ./.Editor/Unity.app/Contents/Resources/PackageManager/Editor
+      editorpath: "$(pwd)/.Editor/Unity.app/Contents/MacOS/Unity"
 ---
 {% for template in templates %}
 pack_{{ template.id }}:

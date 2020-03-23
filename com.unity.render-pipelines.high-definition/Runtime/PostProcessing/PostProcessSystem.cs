@@ -28,7 +28,6 @@ namespace UnityEngine.Rendering.HighDefinition
         Material m_ClearBlackMaterial;
         Material m_SMAAMaterial;
         Material m_TemporalAAMaterial;
-        Material m_TemporalAAMaterial2;
 
         MaterialPropertyBlock m_TAAHistoryBlitPropertyBlock = new MaterialPropertyBlock();
         MaterialPropertyBlock m_TAAPropertyBlock = new MaterialPropertyBlock();
@@ -141,7 +140,6 @@ namespace UnityEngine.Rendering.HighDefinition
             m_ClearBlackMaterial = CoreUtils.CreateEngineMaterial(m_Resources.shaders.clearBlackPS);
             m_SMAAMaterial = CoreUtils.CreateEngineMaterial(m_Resources.shaders.SMAAPS);
             m_TemporalAAMaterial = CoreUtils.CreateEngineMaterial(m_Resources.shaders.temporalAntialiasingPS);
-            m_TemporalAAMaterial2 = CoreUtils.CreateEngineMaterial(m_Resources.shaders.oldTAA);
 
             // Some compute shaders fail on specific hardware or vendors so we'll have to use a
             // safer but slower code path for them

@@ -8,31 +8,16 @@ namespace UnityEditor.ShaderGraph
 {
     class RedirectNodeData : AbstractMaterialNode
     {
-        // Maybe think of this in reverse?
-        SlotReference m_slotReferenceInput;
-        public SlotReference slotReferenceInput
-        {
-            get => m_slotReferenceInput;
-            set => m_slotReferenceInput = value;
-        }
-
-        SlotReference m_slotReferenceOutput;
-        public SlotReference slotReferenceOutput
-        {
-            get => m_slotReferenceOutput;
-            set => m_slotReferenceOutput = value;
-        }
-
         public RedirectNodeData()
         {
             name = "Redirect Node";
         }
 
-        // Center the node's position?
         public void SetPosition(Vector2 pos)
         {
             var temp = drawState;
-            temp.position = new Rect(pos, Vector2.zero);
+            Vector2 offset = new Vector2(-30, -12);
+            temp.position = new Rect(pos + offset, Vector2.zero);
             drawState = temp;
         }
 

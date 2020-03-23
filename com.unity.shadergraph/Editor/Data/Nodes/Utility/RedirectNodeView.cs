@@ -16,7 +16,6 @@ namespace UnityEditor.ShaderGraph
 
         public RedirectNodeView() : base()
         {
-            styleSheets.Add(Resources.Load<StyleSheet>("Styles/RedirectNodeViewB"));
         }
 
         // Tie the nodeView to its data
@@ -32,12 +31,9 @@ namespace UnityEditor.ShaderGraph
 
             viewDataKey = node.guid.ToString();
 
-
             // Set the VisualElement's position
             SetPosition(new Rect(node.drawState.position.x, node.drawState.position.y, 0, 0));
             AddSlots(node.GetSlots<MaterialSlot>());
-            var inputPorts = inputContainer.Children().OfType<ShaderPort>().ToList();
-            orientation = inputPorts[0].orientation;
 
             // Removing a divider that made the ui a bit ugly
             VisualElement contents = mainContainer.Q("contents");

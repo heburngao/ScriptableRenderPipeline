@@ -536,8 +536,8 @@ namespace UnityEditor.Rendering.HighDefinition
             // TODO: does not work with multi-selection
             Material material = materialEditor.target as Material;
 
-            // We only display the ray tracing option if the asset supports it.
-            if ((RenderPipelineManager.currentPipeline as HDRenderPipeline).rayTracingSupported)
+            // We only display the ray tracing option if the asset supports it (and the attributes exists in this shader)
+            if ((RenderPipelineManager.currentPipeline as HDRenderPipeline).rayTracingSupported && rayTracing != null)
                 materialEditor.ShaderProperty(rayTracing, Styles.rayTracingText);
 
             var mode = (SurfaceType)surfaceType.floatValue;

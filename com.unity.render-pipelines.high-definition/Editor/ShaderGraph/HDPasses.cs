@@ -521,7 +521,7 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
                 structs = HDStructCollections.Default,
                 requiredFields = new FieldCollection(){ HDFields.SubShader.Unlit },
                 fieldDependencies = HDFieldDependencies.Default,
-                renderStates = HDRenderStates.HDUnlitForward,
+                renderStates = HDRenderStates.HDForward,
                 pragmas = HDPragmas.DotsInstancedInV2Only,
                 keywords = HDKeywords.HDUnlitForward,
                 includes = HDIncludes.UnlitForwardOnly,

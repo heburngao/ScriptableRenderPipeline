@@ -264,6 +264,7 @@ namespace UnityEngine.Rendering.HighDefinition
         public static readonly int _DstBlend = Shader.PropertyToID("_DstBlend");
 
         public static readonly int _ColorMaskTransparentVel = Shader.PropertyToID("_ColorMaskTransparentVel");
+        public static readonly int _ColorMaskNormal = Shader.PropertyToID("_ColorMaskNormal");
 
         public static readonly int _StencilTexture = Shader.PropertyToID("_StencilTexture");
 

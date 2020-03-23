@@ -13,7 +13,41 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
 
         static public void LoadDefaultCompositionGraph(CompositionManager compositor)
         {
-            compositor.shader = UnityEditor.AssetDatabase.LoadAssetAtPath<Shader>(HDUtils.GetHDRenderPipelinePath() + "Runtime/Compositor/ShaderGraphs/DefaultCompositionGraph.shadergraph");
+            if (!AssetDatabase.IsValidFolder("Assets/Compositor"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Compositor");
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+
+            string path = "Assets/Compositor/DefaultCompositionGraph.shadergraph";
+            path = AssetDatabase.GenerateUniqueAssetPath(path);
+            bool ret1 = AssetDatabase.CopyAsset(HDUtils.GetHDRenderPipelinePath() + "Runtime/Compositor/ShaderGraphs/DefaultCompositionGraph.shadergraph", path);
+            if (ret1 == false)
+            {
+                Debug.LogError("Error creating default shader graph");
+                return;
+            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
+            compositor.shader = AssetDatabase.LoadAssetAtPath<Shader>(path);
+
+            string profilePath;
+            {
+                var fullpath = AssetDatabase.GetAssetPath(compositor.shader);
+                profilePath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(fullpath), System.IO.Path.GetFileNameWithoutExtension(compositor.shader.name)) + ".asset";
+                profilePath = AssetDatabase.GenerateUniqueAssetPath(profilePath);
+            }
+            
+            bool ret2 = AssetDatabase.CopyAsset(HDUtils.GetHDRenderPipelinePath() + "Runtime/Compositor/ShaderGraphs/DefaultCompositionGraph.asset", profilePath);
+            if (ret2 == false)
+            {
+                Debug.LogError("Error creating default profile");
+                return;
+            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         static public void RemoveAudioListeners(Camera camera)
@@ -27,7 +61,6 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
 
         static public void SetDefaultCamera(CompositionManager compositor)
         {
-            compositor.shader = UnityEditor.AssetDatabase.LoadAssetAtPath<Shader>(HDUtils.GetHDRenderPipelinePath() + "Runtime/Compositor/ShaderGraphs/DefaultCompositionGraph.shadergraph");
             var camera = CompositionManager.GetSceceCamera();
             if (camera != null)
             {

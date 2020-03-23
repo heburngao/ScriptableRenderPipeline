@@ -52,7 +52,7 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
             enableCompositor = EditorGUILayout.Toggle(TextUI.EnableCompositor, enableCompositor);
 
             // Track if the user changed the compositor enable state and mark the scene dirty if necessary
-            if (enableCompositorCached != enableCompositor)
+            if (enableCompositorCached != enableCompositor && compositor != null)
             {
                 EditorUtility.SetDirty(compositor);
             }
@@ -69,6 +69,7 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
                 // Now add the default configuration
                 CompositionUtils.LoadDefaultCompositionGraph(compositor);
                 CompositionUtils.LoadOrCreateCompositionProfileAsset(compositor);
+                compositor.SetupCompositionMaterial();
                 CompositionUtils.SetDefaultCamera(compositor);
             }
 

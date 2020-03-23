@@ -17,6 +17,7 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
             return (masterNode is FabricMasterNode ||
                     masterNode is HDLitMasterNode ||
                     masterNode is StackLitMasterNode ||
+                    masterNode is HairMasterNode ||
                     masterNode is HDUnlitMasterNode);
         }
         public bool IsPipelineCompatible(RenderPipelineAsset currentPipeline)
@@ -42,6 +43,9 @@ namespace UnityEditor.Rendering.HighDefinition.ShaderGraph
                     break;
                 case HDUnlitMasterNode hDUnlitMasterNode:
                     context.SetupSubShader(HDSubShaders.HDUnlitRaytracing);
+                    break;
+                case HairMasterNode hairMasterNode:
+                    context.SetupSubShader(HDSubShaders.HairRaytracing);
                     break;
             }
         }

@@ -8,11 +8,11 @@ The following table shows the compatibility of URP package versions with differe
 
 | Package version | Minimum Unity version | Maximum Unity version |
 |-----------------|-----------------------|-----------------------|
-| 9.x.x           | 2020.1.0a23           | Planned: 2020.2.x     |
+| 9.x.x           | 2020.1.0a23           | 2020.2.x              |
 | 8.x.x           | 2020.1.0a23           | 2020.1.x              |
-| 7.3.x           | 2019.3.2f1            | Planned: 2019.4.x     |
-| 7.2.x           | 2019.3.0f6            | Planned: 2019.4.x     |
-| 7.1.8           | 2019.3.0f3            | Planned: 2019.4.x     |
+| 7.3.x           | 2019.3.2f1            | 2019.4.x              |
+| 7.2.x           | 2019.3.0f6            | 2019.4.x              |
+| 7.1.8           | 2019.3.0f3            | 2019.4.x              |
 
 ## Render pipeline compatibility
 

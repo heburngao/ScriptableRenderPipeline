@@ -79,6 +79,12 @@ namespace UnityEditor.ShaderGraph
             set { m_Name = value; }
         }
 
+        public int nodeVersion 
+        {
+            get { return m_NodeVersion; }
+            set { m_NodeVersion = value; }
+        }
+
         protected virtual string documentationPage => name;
         public virtual string documentationURL => NodeUtils.GetDocumentationString(documentationPage);
 

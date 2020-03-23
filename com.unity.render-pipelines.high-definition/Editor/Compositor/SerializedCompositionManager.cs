@@ -38,6 +38,12 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
 
         }
 
+        public void Update()
+        {
+            CompositionProfileSO.Update();
+            CompositorSO.Update();
+        }
+
         public void ApplyModifiedProperties()
         {
             CompositionProfileSO.ApplyModifiedProperties();

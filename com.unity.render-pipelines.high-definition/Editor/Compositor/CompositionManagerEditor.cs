@@ -127,6 +127,7 @@ namespace UnityEditor.Rendering.HighDefinition.Compositor
                     return;
                 }
             }
+            m_SerializedProperties.Update();
 
             m_EnablePreview = EditorGUILayout.Toggle(TextUI.EnablePreview, m_compositionManager.enableOutput);
             {

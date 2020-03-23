@@ -33,7 +33,6 @@ pack_{{ template.id }}:
   artifacts:
     packages:
       paths:
-        - "upm-ci~/packages/**/*"
         - "upm-ci~/templates/**/*"
 {% endfor %}
 
@@ -90,10 +89,30 @@ test_{{ template.id }}_{{ platform.name }}_{{ editor.version }}_dependencies:
         - "**/upm-ci~/test-results/**/*"
   dependencies:
     - .yamato/z_editor.yml#editor:priming:{{ editor.version }}:{{ platform.os }}
-    - .yamato/upm-ci-packages.yml#test_{{ template.id}}_{{ platform.name }}_{{ editor.version }}
+    - .yamato/upm-ci-templates.yml#test_{{ template.id}}_{{ platform.name }}_{{ editor.version }}
   {% for dep in template.dependencies %}
     - {{ dep }}
   {% endfor %}
+{% endfor %}
+{% endfor %}
+{% endfor %}
+
+{% for editor in editors %}
+all_template_ci_{{ editor.version }}:
+  name: Pack and test all templates - {{ editor.version }}
+  agent:
+    type: Unity::VM
+    image: package-ci/win10:stable
+    flavor: b1.large
+  commands:
+    - npm install upm-ci-utils@stable -g --registry https://api.bintray.com/npm/unity/unity-npm
+    - upm-ci package izon -t
+    - upm-ci package izon -d
+  dependencies:
+{% for platform in platforms %}
+{% for template in templates %}
+    - .yamato/upm-ci-templates.yml#test_{{ template.id}}_{{ platform.name }}_{{ editor.version }}
+    - .yamato/upm-ci-templates.yml#test_{{ template.id}}_{{ platform.name }}_{{ editor.version }}_dependencies
 {% endfor %}
 {% endfor %}
 {% endfor %}

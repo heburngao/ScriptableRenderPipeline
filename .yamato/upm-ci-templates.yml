@@ -87,6 +87,7 @@ test_{{ template.id }}_{{ platform.name }}_{{ editor.version }}:
         - "**/upm-ci~/test-results/**/*"
   dependencies:
     - .yamato/z_editor.yml#editor:priming:{{ editor.version }}:{{ platform.os }}
+    - .yamato/upm-ci-templates.yml#pack_{{ template.id }}
   {% for dep in template.dependencies %}
     - {{ dep }}
   {% endfor %}
